@@ -1,0 +1,891 @@
+@media only screen and (min-width: 0) and (max-width: 319px) {
+  /* Title */
+  .T-15 {
+    margin-left: 50px;
+  }
+  .AR-20 {
+    width: 300px;
+    margin: 40px 20px 0px 20px;
+    font-size: 12px;
+  }
+  .avatar {
+    width: 80px;
+    height: 80px;
+    top: -20px !important;
+    left: -80px !important;
+  }
+  /* Tasto CV */
+  #CV {
+    padding: 10px;
+  }
+  /* end About */
+
+  /* Pag Service */
+  .cont-service {
+    margin: 200px 0 200px 0;
+    left: calc(80% - 75%);
+  }
+
+  .ciao {
+    width: 100%;
+    height: 230px;
+  }
+  .ciao h3 {
+    font-size: 20px;
+  }
+
+  .cont-description {
+    width: calc(100% - 30px);
+    height: 250px;
+    background: #181a1dfa;
+    overflow: hidden;
+  }
+  .cont-inf h2 {
+    font-size: small;
+    font-family: sans-serif;
+  }
+  .cont-inf p {
+    font-size: 9px;
+  }
+  .cont-fig {
+    width: 300px;
+    height: 230px;
+    top: -165px;
+    left: 29px;
+  }
+
+  /* Pag-Project */
+
+  .Project p {
+    font-size: 12px;
+  }
+  /* Skills */
+  .row-S {
+    gap: 20px;
+    margin: 25px;
+  }
+  .BT-S10 {
+    width: 105px;
+    height: auto;
+    font-size: 10px;
+    font-size: 8px;
+    padding: 10px;
+  }
+
+  .Skill-1 {
+    gap: 20px;
+  }
+  .skillIco {
+    margin: 20px 0 0 2px;
+  }
+
+  .img-ico {
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+    transition: 0.5s;
+  }
+
+  .img-ico:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+  /* Contact */
+
+  #CT-2 {
+    margin-left: 0;
+    margin-top: 70px;
+  }
+
+  .C-16 i {
+    font-size: 15px;
+    margin: 10px 0 10px 5px;
+  }
+
+  .C-16 h6 {
+    font-size: 15px;
+  }
+  .C-16 p {
+    font-size: 7px;
+  }
+
+  .F-contact {
+    margin-top: 0;
+  }
+}
+@media only screen and (min-width: 320px) {
+  /* Logo */
+  .logo h1 {
+    font-size: 50px;
+  }
+  .logo p {
+    right: 6px;
+    font-size: 15px;
+    letter-spacing: 4px;
+  }
+  /* Box Social SideBar */
+  .L-S {
+    height: 90px;
+    display: flex;
+    position: relative;
+  }
+  .contAbout {
+    display: grid;
+    grid-template-columns: repeat(2, 2fr);
+  }
+  /* About */
+  .T-15 {
+    margin-top: 120px;
+    font-size: 35px;
+    padding: 5px;
+  }
+
+  /* Service */
+  .ciao h3 {
+    font-size: 20px;
+  }
+  .cont-serv {
+    gap: 400px;
+    display: flex;
+    flex-grow: 1;
+  }
+
+  .cont-inf p {
+    margin-left: -10px;
+    margin-top: 20px;
+    font-weight: 700;
+    margin-right: 10px;
+  }
+  /* Contact */
+  .F-contact {
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+    background: rgba(0, 0, 0, 0.49);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3.5px);
+    width: auto;
+    height: auto;
+    padding: 5px;
+  }
+  .inp-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    bottom: 100px;
+    left: 100px;
+  }
+  .inp-row {
+    display: flex;
+    flex-direction: row;
+  }
+  .inp-contact input,
+  textarea,
+  button {
+    /* background: linear-gradient(to top, #20252d 60%, #3d4556 100%); */
+    background: none;
+    border-bottom: 4px solid #3d4556;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+    color: #04a2e0;
+    border: 0 0 0 0;
+    height: auto;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: sans-serif;
+    margin: 20px;
+    transition: 0.5s;
+  }
+  .inp-contact button {
+    width: 150px;
+    background: linear-gradient(to top, #20252d5c 60%, #3d45564f 100%);
+    border: none;
+  }
+  .inp-contact button:hover {
+    background: linear-gradient(to top, #20252d77 60%, #3d45567b 100%);
+    box-shadow: 2.5px 2.5px #00000090;
+    cursor: pointer;
+  }
+  .C-16 {
+    background: linear-gradient(to top, #191d2499 60%, #090a0cbd 100%);
+    margin: 20px 10px 0px 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+  .C-16 i {
+    margin: 10px 0 10px 5px;
+  }
+  .C-16 h6 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+    margin: 10px;
+    color: #b5b5b5;
+  }
+  .C-16 p {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+    margin: 0 0 10px 0;
+    color: #b5b5b5;
+  }
+}
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+  /* Title */
+  .T-15 {
+    margin-left: 50px;
+  }
+  .AR-20 {
+    width: 300px;
+    margin: 40px 20px 0px 20px;
+    font-size: 12px;
+  }
+  .avatar {
+    width: 80px;
+    height: 80px;
+    top: -20px !important;
+    left: -80px !important;
+  }
+  /* Tasto CV */
+  #CV {
+    padding: 10px;
+  }
+  /* end About */
+
+  /* Pag Service */
+  .cont-service {
+    margin: 200px 0 200px 0;
+    left: calc(80% - 75%);
+  }
+
+  .ciao {
+    width: 100%;
+    height: 230px;
+  }
+  .ciao h3 {
+    font-size: 20px;
+  }
+
+  .cont-description {
+    width: calc(100% - 30px);
+    height: 250px;
+    background: #181a1dfa;
+    overflow: hidden;
+  }
+  .cont-inf h2 {
+    font-size: small;
+    font-family: sans-serif;
+  }
+  .cont-inf p {
+    font-size: 9px;
+  }
+  .cont-fig {
+    width: 300px;
+    height: 230px;
+    top: -165px;
+    left: 29px;
+  }
+
+  /* Pag-Project */
+
+  .Project p {
+    font-size: 12px;
+  }
+  /* Skills */
+  .row-S {
+    gap: 20px;
+    margin: 25px;
+  }
+  .BT-S10 {
+    width: 105px;
+    height: auto;
+    font-size: 10px;
+    font-size: 8px;
+    padding: 10px;
+  }
+
+  .Skill-1 {
+    gap: 20px;
+  }
+  .skillIco {
+    margin: 20px 0 0 2px;
+  }
+
+  .img-ico {
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+    transition: 0.5s;
+  }
+
+  .img-ico:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+  /* Contact */
+
+  #CT-2 {
+    margin-left: 0;
+    margin-top: 70px;
+  }
+
+  .C-16 i {
+    font-size: 15px;
+    margin: 10px 0 10px 5px;
+  }
+
+  .C-16 h6 {
+    font-size: 15px;
+  }
+  .C-16 p {
+    font-size: 7px;
+  }
+
+  .F-contact {
+    margin-top: 0;
+  }
+
+  #inp-c1 {
+    display: none !important;
+  }
+  .inp-row {
+    display: flex;
+    flex-direction: row;
+  }
+  .inp-col {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .inp-contact input,
+  textarea,
+  button {
+    width: clac(100% - 50px);
+    font-size: 12px;
+  }
+}
+@media only screen and (min-width: 481px) {
+  /* Logo */
+
+  /*  ABOUT */
+
+  .contAbout {
+    display: grid;
+    grid-template-columns: repeat(2, 2fr);
+  }
+
+  /* Tasto CV */
+  #CV {
+    padding: 20px;
+  }
+
+  /* Service */
+
+  .cont-inf p {
+    font-size: 10px;
+  }
+  .cont-fig {
+    top: 18px;
+    left: 183px;
+  }
+  /* End Service */
+  /* Project */
+  .Project p {
+    font-size: 12px;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-weight: 700;
+  }
+  /* End Project */
+  /* SKills */
+
+  .row-S {
+    margin: 50px 0 0 50px;
+  }
+  .BT-S10 {
+    padding: 20px;
+  }
+
+  .skillIco {
+    margin: 100px 0 0 50px;
+  }
+  .img-ico {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    transition: 0.5s;
+  }
+  .img-ico:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+  /* Contact */
+  #CT-2 {
+    margin-top: 110px;
+  }
+
+  #inp-c2 {
+    display: none !important;
+  }
+
+  .C-16 i {
+    font-size: 30px;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* About */
+  .T-15 {
+    margin-left: 70px;
+    margin-top: 120px;
+    font-size: 35px;
+    padding: 5px;
+  }
+  .AR-20 {
+    margin: 40px 20px 0px 20px;
+    font-size: 12px;
+    width: 480px;
+  }
+  .avatar {
+    width: 100px;
+    height: 100px;
+    top: -40px !important;
+    left: -220px !important;
+  }
+  /* end About */
+
+  /* Pag Service */
+  .cont-service {
+    margin: 100px 0 100px 0;
+    left: calc(80% - 70%);
+  }
+  .ciao {
+    width: 350px;
+    height: 230px;
+  }
+  .cont-description {
+    width: 350px;
+    height: 250px;
+  }
+
+  .cont-inf h2 {
+    font-size: x-large;
+  }
+
+  .cont-fig {
+    width: 250px;
+    height: 230px;
+    top: -135px;
+    left: 208;
+    z-index: 0;
+  }
+  /* Skills */
+  .Skill-1 {
+    gap: 20px;
+  }
+
+  /* Contact */
+
+  #CT-2 {
+    margin-left: 0;
+  }
+
+  .C-16 {
+    width: 170px;
+    height: 150px;
+  }
+
+  .C-16 h6 {
+    font-size: 15px;
+  }
+  .C-16 p {
+    font-size: 10px;
+  }
+
+  .F-contact {
+    margin-top: 0;
+  }
+
+  .inp-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .inp-contact input,
+  textarea,
+  button {
+    font-size: 12px;
+  }
+  .inp-contact textarea {
+    width: calc(100% - 50px) !important;
+  }
+}
+@media only screen and (max-width: 769px) {
+  .Menu {
+    display: none;
+  }
+}
+@media only screen and (min-width: 769px) {
+  /* Menu */
+  .Menu {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    height: 100px;
+    background: rgba(46, 46, 46, 0.506);
+    padding: 10px;
+    z-index: 999;
+  }
+  .menu-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+  }
+  /* Logo Menu-Bar */
+  /* Logo */
+  .logoS {
+    position: relative;
+    bottom: 24px;
+  }
+  .logoS h1 {
+    color: #b5b5b5;
+  }
+
+  .logoS p {
+    width: max-content;
+    position: relative;
+    right: 6px;
+    font-size: 15px;
+    font-family: monospace;
+    letter-spacing: 10px;
+    color: #686868;
+  }
+  .logoS span {
+    color: rgb(0, 112, 255);
+  }
+  /* Link-menu */
+  .NS-10 {
+    position: relative;
+  }
+  .US-10 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 20px;
+  }
+  .US-10 .A-10 a {
+    position: relative;
+    transform: 0.5s;
+  }
+  .A-10 a:hover {
+    color: rgb(0, 100, 139) !important;
+
+    text-shadow: 0 10px 10px #0c7eb768, 0 0 30px #0c7eb75b, 0 2px 10px #0031d3a4;
+  }
+
+  #A-10 .A-10 a {
+    font-size: 18px;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    font-weight: 900;
+    color: #b5b5b5;
+    transition: 0.5s;
+    display: flex;
+  }
+  /* About */
+  .T-15 {
+    margin-left: 150px;
+    font-size: 50px;
+  }
+
+  /* Avatar */
+  .avatar {
+    width: 115px;
+    height: 115px;
+  }
+  /* end About */
+  /* Pag service */
+  .cont-service {
+    margin: 100px;
+  }
+  .ciao {
+    width: 400px;
+    height: 230px;
+  }
+
+  .cont-description {
+    width: 400px;
+    height: 250px;
+  }
+
+  .cont-inf h2 {
+    font-size: xx-large;
+  }
+
+  .cont-fig {
+    height: 230px;
+    left: 250px;
+  }
+
+  /* End Service */
+
+  /* Skills */
+
+  .row-S {
+    margin: 50px 0 0 100px;
+  }
+
+  /* end skill */
+  /* Pag Contact */
+
+  .F-contact {
+    margin: 100px;
+  }
+
+  .inp-contact input,
+  textarea,
+  button {
+    font-size: 15px;
+  }
+
+  .inp-contact textarea {
+    resize: none;
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .menu-bar {
+    justify-content: space-between;
+  }
+
+  /* Logo Menu-Bar */
+  /* Logo */
+  .logoS {
+    left: 20px;
+  }
+
+  .logoS h1 {
+    font-size: 50px;
+  }
+
+  /* Link-menu */
+  .US-10 .A-10 a {
+    margin: 5px;
+    padding: 3.5px;
+  }
+  /* End Link Menu */
+
+  /*  ABOUT */
+
+  .AR-20 {
+    margin: 50px 0 0 50px;
+    width: 700px;
+    font-size: 13.5px;
+  }
+
+  /* Avatar */
+  .avatar {
+    top: -30px !important;
+    left: -280px !important;
+  }
+
+  /* end About */
+
+  /* Pag Service */
+  .cont-service {
+    flex-direction: column;
+    gap: 100px;
+  }
+  /* End Pag Service */
+  /* Pag-Project */
+
+  .Project p {
+    margin: 20px;
+  }
+  /* end project */
+
+  /* Skills */
+
+  .Skill-1 {
+    gap: 20px;
+  }
+  /* End Service */
+
+  /* Contact */
+
+  #CT-2 {
+    margin-left: 180px;
+  }
+
+  .C-16 {
+    width: 170px;
+    height: 150px;
+  }
+
+  .C-16 i {
+    font-size: 30px;
+    margin: 10px 0 10px 5px;
+  }
+
+  .C-16 h6 {
+    font-size: 15px;
+  }
+  .C-16 p {
+    font-size: 10px;
+  }
+  .inp-contact input,
+  textarea,
+  button {
+    width: calc(100% - 300px);
+  }
+  /* End Contact */
+}
+@media only screen and (min-width: 1025px) {
+  .row {
+    display: flex;
+    flex-direction: row;
+  }
+  /* Logo Menu-Bar */
+  /* Logo */
+
+  .logoS h1 {
+    font-size: 50px;
+  }
+
+  .logoS p {
+    letter-spacing: 10px;
+  }
+  /* About */
+  .AR-20 {
+    margin: 80px 20px 0px 150px;
+  }
+  /* End About */
+
+  /* Pag Project */
+  .Project p {
+    margin: 30px;
+  }
+  /* End Project */
+
+  /* Link-menu */
+
+  .US-10 .A-10 a {
+    margin: 10px;
+    padding: 7px;
+  }
+  /* End Link Menu */
+
+  /* Contact */
+  #CT-1 {
+    display: -webkit-box;
+    margin-left: 270px;
+    margin-top: -250px;
+  }
+  .C-16 {
+    width: 250px;
+    height: 170px;
+  }
+  .C-16 h6 {
+    font-size: 20px;
+  }
+}
+@media only screen and (min-width: 1025px) and (max-width: 1249px) {
+  .menu-bar {
+    justify-content: space-between;
+  }
+
+  /* Logo Menu-Bar */
+  /* Logo */
+  .logoS {
+    left: 20px;
+  }
+  /*  ABOUT */
+
+  .AR-20 {
+    width: 800px;
+    font-size: 13.5px;
+  }
+  /* Avatar */
+
+  .avatar {
+    top: -40px !important;
+    left: -400px !important;
+  }
+
+  /* end About */
+
+  /* Pag Service */
+  .cont-service {
+    align-items: center;
+  }
+
+  /* end service */
+
+  /* Pag skills */
+  .Project p {
+    margin: 30px;
+  }
+  /* end project */
+
+  /* pag Skills */
+
+  .Skill-1 {
+    gap: 20px;
+  }
+  /* end skill */
+
+  /* Contact */
+
+  #CT-2 {
+    margin-left: 180px;
+  }
+
+  .inp-contact input,
+  textarea,
+  button {
+    width: 265px;
+  }
+}
+
+@media only screen and (min-width: 1250px) {
+  /* Menu */
+  .menu-bar {
+    left: 100px;
+    position: sticky;
+  }
+  /* Link-menu */
+  .NS-10 {
+    left: 200px;
+  }
+  .AR-20 {
+    width: 900px;
+    font-size: 15px;
+  }
+
+  /* Avatar */
+  .avatar {
+    top: -30px !important;
+    left: -500px !important;
+  }
+  section {
+    overflow: hidden;
+  }
+  /* end About */
+
+  /* Contact */
+  #CT-2 {
+    margin-left: 370px;
+  }
+  .inp-contact input,
+  textarea,
+  button {
+    width: 300px;
+  }
+}

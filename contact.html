@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contsct Us</title>
+</head>
+<body>
+    <div id="contact" class="CH20 MH-20" >
+
+        <div class="F-contact">
+            <span class="Title">
+                <h1 class="T-1 T-15">Contact</h1><br>
+            </span>
+            <div id="inp-c1" class="inp-contact">
+                <span class="inp-row">
+                    <form onsubmit="inviaEmail(); return false;">
+                <input type="text" name="nome" id="nome" placeholder="Nome | Agenzia | Azienda"><button type="submit" name="sendEmail" >Invia</button>
+                </span>
+
+                <span class="inp-row">                
+                    <input type="email" name="email" id="email" placeholder="Email"><input type="tel" name="number" id="number" placeholder="Numero">
+                </span>
+
+                <textarea type="text" name="msg" id="msg" cols="5" rows="10" placeholder="Messaggio"></textarea>
+                </form>
+            </div>
+
+            <div id="inp-c2" class="inp-contact">
+                <form action="" method="post">
+                    <span class="inp-col">
+                    <input type="text" name="nome" id="nome" placeholder="Nome | Agenzia | Azienda">
+                    <input type="email" name="email" id="email" placeholder="Email"><input type="tel" name="number" id="number" placeholder="Numero">
+                    <textarea type="text" name="msg" id="msg" cols="5" rows="10" placeholder="Messaggio"></textarea>
+                    <button type="submit" name="sendEmail" >Invia</button>
+                    </span>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        function inviaEmail() {
+            var nome = document.getElementById('nome').value;
+            var email = document.getElementById('email').value;
+            var numero = document.getElementById('number').value;
+            var messaggio = document.getElementById('msg').value;
+        
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'email.php');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Gestisci la risposta qui, se necessario
+                    console.log(xhr.responseText);
+                }
+                else {
+                    console.log('Si è verificato un errore durante la chiamata.');
+                }
+            };
+            xhr.send('nome=' + nome + '&email=' + email + '&numero=' + numero + '&messaggio=' + messaggio + '&sendEmail=true');
+        }
+        </script>
+        
+</body>
+</html>
