@@ -5,7 +5,9 @@
 `Obiettivo:` Offrire soluzioni di sviluppo web per diversi settori.
 
 Fotografi: Creazione di un sito web professionale per mostrare il portfolio e accettare prenotazioni.
+
 Ristoranti: Sviluppo di un sito web con funzionalità di prenotazione online e menu interattivo.
+
 Auto e Moto: Realizzazione di un sito web per concessionarie o officine, con la possibilità di visualizzare il catalogo e prenotare appuntamenti per i servizi.
 Resort: Creazione di un sito web per la prenotazione di camere, pacchetti vacanza e attività.
 Punti Vendita in Generale: Sviluppo di siti web per negozi al dettaglio per mostrare il catalogo prodotti e promuovere le vendite online.

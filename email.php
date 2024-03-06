@@ -26,7 +26,7 @@ class EmailSender {
 }
 
 if(isset($_POST['sendEmail'])){
-    $to = "amoroso.franz1@gmail.com";
+    $to = "info@amatores.com";
     $subject = "Portafolio/Amoroso";
     $message = $_POST['msg'];
     $email = $_POST['email'];
