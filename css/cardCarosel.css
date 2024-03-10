@@ -1,0 +1,51 @@
+@media only screen and (max-width:769px){
+  .carousel {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .carousel-dots {
+    text-align: center;
+    margin-top: 10px;
+  }
+  .carousel-dots1 {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .dot, .dot1 {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    border-radius: 100px;
+    background-color: #ccc;
+    cursor: pointer;
+  }
+  
+  .dot.active, .dot1.active1 {
+    background-color: #0048ff;
+    width: 30px;
+    background-color: #333;
+  }
+  /* About */
+
+  .Mtop-50 {
+    display: flex; /* Imposta il layout dei figli in una riga */
+    scroll-snap-type: x mandatory; /* Abilita il snap dello scorrimento orizzontale */
+  }
+  .Mtop-50 > .service-P{
+    flex: 0 0 auto; /* Imposta la larghezza fissa per ogni scheda */
+    scroll-snap-align: start; /* Assicura che ogni scheda sia allineata correttamente durante lo scorrimento */
+    width: 100%; /* Assicura che ogni scheda occupi l'intera larghezza del contenitore */
+
+  }
+  #about > .contAbout {
+    flex: 0 0; /* Imposta la larghezza fissa per ogni scheda */
+    scroll-snap-align: center; /* Assicura che ogni scheda sia allineata correttamente durante lo scorrimento */
+    width: 100%; /* Assicura che ogni scheda occupi l'intera larghezza del contenitore */
+  }
+
+}
+  
