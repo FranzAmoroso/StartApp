@@ -1,0 +1,48 @@
+@media only screen and (min-width:0) and (max-width:1025px){
+    .US-10{
+        display: none;
+    }
+    .cont-menuXS {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-right: 50px;
+      }
+      .menuXS{
+          width: 35px;
+        height: 3px;
+        box-shadow: 0 0.5rem 1.125rem -0.5rem darkcyan;
+      }
+      .menuXS:nth-child(1) {
+       background: linear-gradient(45deg,#065f82 ,rgba(56, 0, 255, 0.16) , #065f82 );
+      }
+      .menuXS:nth-child(3){
+          background: linear-gradient(45deg,#065f82 ,rgba(56, 0, 255, 0.16) , #065f82 );
+      }
+      .menuXS:nth-child(2){
+          background: linear-gradient(45deg,rgba(56, 0, 255, 0.16) 0%, #065f82  90%);
+         
+      }
+}
+@media only screen and (min-width:1025px){
+    .cont-menuXS{
+        display: none;
+    }
+}
+
+.menuContainer {
+    display: none; /* Inizialmente nascosto */
+    position: absolute;
+    top: 100px; /* Posizionato sotto l'icona del menu */
+    right: 10px;
+    background-color: white; /* Sfondo bianco */
+    border: 1px solid black; /* Bordo nero */
+}
+
+.menuItem {
+    padding: 10px;
+}
+
+.menuContainer.open {
+    display: block; /* Visualizzato quando il menu è aperto */
+}

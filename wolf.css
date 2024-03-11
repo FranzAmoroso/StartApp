@@ -1,3 +1,6 @@
+.space {
+  position: relative;
+}
 .frame .wolf {
   background: url(https://raw.githubusercontent.com/interaminense/repository-codepen/master/wolf/imgs/wolf.png);
   background-repeat: repeat;
@@ -428,7 +431,7 @@
     top: 45px !important;
   }
 }
-@media only screen and (min-width:480px){
+@media only screen and (min-width: 480px) {
   .mn1 {
     margin: 0 !important;
     right: unset;
@@ -451,12 +454,20 @@
   left: 328px !important;
   top: 76px !important;
 }
+.mn3 {
+  left: 279px !important;
+  top: -41px !important;
+}
 .wl {
   margin: 0 !important;
   right: 270px !important;
   bottom: 268px !important;
   left: 314px !important;
   top: 85px !important;
+}
+.wl3 {
+  left: 263px !important;
+  top: -33px !important;
 }
 @keyframes rotate360 {
   from {

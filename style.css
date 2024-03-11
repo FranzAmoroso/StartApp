@@ -580,16 +580,7 @@
   .NS-10 {
     position: relative;
   }
-  .US-10 {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-right: 20px;
-  }
-  .US-10 .A-10 a {
-    position: relative;
-    transform: 0.5s;
-  }
+ 
   .A-10 a:hover {
     color: rgb(0, 100, 139) !important;
 
@@ -720,11 +711,7 @@
     font-size: 50px;
   }
 
-  /* Link-menu */
-  .US-10 .A-10 a {
-    margin: 5px;
-    padding: 3.5px;
-  }
+  
   /* End Link Menu */
 
   /*  ABOUT */
@@ -872,7 +859,16 @@
   /* End Project */
 
   /* Link-menu */
-
+  .US-10 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 20px;
+  }
+  .US-10 .A-10 a {
+    position: relative;
+    transform: 0.5s;
+  }
   .US-10 .A-10 a {
     margin: 10px;
     padding: 7px;
