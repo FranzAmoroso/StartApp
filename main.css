@@ -105,14 +105,14 @@ nav {
   cursor: pointer;
 }
 
-.A-10:nth-child(1) a::after {
+/* .A-10:nth-child(1) a::after {
   margin-right: -1.25rem;
   display: flex;
   font-weight: 900;
   align-items: center;
   content: "\e5cf";
   font-family: "Material Symbols Outlined";
-}
+} */
 
 .BT-A10 {
   background: linear-gradient(45deg, #065f82 0%, rgba(56, 0, 255, 0.16) 90%);
@@ -229,7 +229,7 @@ nav {
 }
 
 /* About */
-#about {
+.aboutUS {
   display: flex;
   margin-top: 100px;
   scroll-snap-type: x mandatory; /* Abilita il snap dello scorrimento orizzontale */
