@@ -22,7 +22,7 @@
 
   /* Pag Service */
   .cont-service {
-    margin: 200px 0 200px 0;
+    margin-top: 200px;
     left: calc(80% - 75%);
   }
 
@@ -135,7 +135,7 @@
   }
   .logo p {
     right: 6px;
-    font-size: 15px;
+    font-size: 13px;
     letter-spacing: 4px;
   }
   /* Box Social SideBar */
@@ -145,21 +145,19 @@
     position: relative;
   }
   /* about us */
-  #about {
+  .aboutUS {
     justify-content: unset;
     align-items: unset;
   }
-  .avatar{
+  .avatar {
     top: unset;
     left: unset;
-      width: 115px;
-      height: 115px;
+    width: 115px;
+    height: 115px;
   }
   .AR-20 {
     margin: 120px 20px 0px 20px;
   }
-
-
 
   .T-15 {
     margin-top: 120px;
@@ -313,7 +311,7 @@
 
   /* Pag Service */
   .cont-service {
-    margin: 200px 0 200px 0;
+    margin-top: 200px;
     left: calc(80% - 75%);
     gap: 250px !important;
   }
@@ -411,7 +409,6 @@
   }
   /* Logo */
 
- 
   .contAbout {
     display: grid;
     grid-template-columns: repeat(2, 2fr);
@@ -472,7 +469,7 @@
 
   /* Pag Service */
   .cont-service {
-    margin: 100px 0 100px 0;
+    margin-top:100px;
     left: calc(80% - 70%);
   }
   .ciao {
@@ -580,10 +577,9 @@
   .NS-10 {
     position: relative;
   }
- 
+
   .A-10 a:hover {
     color: rgb(0, 100, 139) !important;
-
     text-shadow: 0 10px 10px #0c7eb768, 0 0 30px #0c7eb75b, 0 2px 10px #0031d3a4;
   }
 
@@ -596,7 +592,7 @@
     display: flex;
   }
   /* About */
-   #about {
+  .aboutUS {
     justify-content: center;
     align-items: center;
   }
@@ -711,7 +707,6 @@
     font-size: 50px;
   }
 
-  
   /* End Link Menu */
 
   /*  ABOUT */
