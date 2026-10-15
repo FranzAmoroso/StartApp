@@ -143,10 +143,10 @@ const CATEGORIE = [
       { nome: "DMI StudentLab", url: "https://studentlab.net", testo: "Laboratorio per studenti del Dipartimento di Matematica e Informatica." },
       { nome: "CLARA", url: "https://claraedil.it", testo: "Automazione dei processi per le imprese edili." }
     ],
-    altri: [
+/*     altri: [
       { nome: "E-commerce + gestionale", url: "https://github.com/FranzAmoroso/ecommerce", tech: "PHP · React" },
       { nome: "Rubrica aziendale", url: "https://techsolutions-six.vercel.app/", tech: "React · JavaScript" }
-    ]
+    ] */
   },
   {
     id: "risorse",
