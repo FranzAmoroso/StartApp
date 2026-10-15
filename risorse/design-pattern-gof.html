@@ -1,0 +1,677 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Design Pattern GoF</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap">
+<style>
+/* Layout: colonna di studio unica; ogni pattern è una scheda con il diagramma su carta millimetrata e le spiegazioni sotto */
+:root{
+  --bg:#f4f6f9; --surface:#ffffff; --fg:#1b2230; --muted:#586174; --line:#d8dee8;
+  --paper:#fbfcfe; --grid:#e8edf4; --ink:#2b3546; --box:#ffffff;
+  --cre:#0d7466; --cre-t:#dff1ed; --str:#9a5400; --str-t:#f7e9d6; --beh:#5444ad; --beh-t:#e9e6f8;
+  --note:#fff7d1; --note-line:#b9a24a;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11151c; --surface:#181e27; --fg:#e4e8ef; --muted:#9aa3b3; --line:#2b3340;
+  --paper:#141a22; --grid:#1f2732; --ink:#c3cbd8; --box:#1b222c;
+  --cre:#5cc6b5; --cre-t:#16332e; --str:#e2a456; --str-t:#36280f; --beh:#ab9ff2; --beh-t:#272244;
+  --note:#332f1b; --note-line:#8d7d40; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11151c; --surface:#181e27; --fg:#e4e8ef; --muted:#9aa3b3; --line:#2b3340;
+  --paper:#141a22; --grid:#1f2732; --ink:#c3cbd8; --box:#1b222c;
+  --cre:#5cc6b5; --cre-t:#16332e; --str:#e2a456; --str-t:#36280f; --beh:#ab9ff2; --beh-t:#272244;
+  --note:#332f1b; --note-line:#8d7d40; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15.5px;line-height:1.6}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+a{color:inherit}
+.fam-cre{--fam:var(--cre);--fam-t:var(--cre-t)}
+.fam-str{--fam:var(--str);--fam-t:var(--str-t)}
+.fam-beh{--fam:var(--beh);--fam-t:var(--beh-t)}
+
+/* intestazione */
+.top{padding-block:40px 20px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.top h1{font-size:clamp(34px,6vw,56px);font-weight:750;letter-spacing:-.02em;margin-top:8px}
+.top p{max-width:62ch;color:var(--muted);margin:12px 0 0}
+
+/* barra */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;gap:8px;align-items:center;padding-block:10px;overflow-x:auto;scrollbar-width:none}
+.bar .wrap::-webkit-scrollbar{display:none}
+.chip{flex:none;font:500 13.5px/1 var(--body);padding:9px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.chip .n{font-family:var(--mono);font-size:11.5px;opacity:.7;margin-left:4px}
+.chip:focus-visible,.reveal:focus-visible,.idx a:focus-visible{outline:2px solid var(--fam,var(--beh));outline-offset:2px}
+.sp{flex:1 0 8px}
+.chip.quiz{border-style:dashed}
+
+/* indice e intro */
+.intro{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-block:28px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px;min-width:0}
+.panel h3{font-size:19px;margin-bottom:12px}
+.idx{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px}
+.idx h4{margin:0 0 6px;font:600 12px/1.3 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--fam)}
+.idx ol{margin:0;padding:0;list-style:none;display:grid;gap:2px}
+.idx a{text-decoration:none;display:flex;gap:8px;padding:3px 0}
+.idx a:hover span:last-child{text-decoration:underline;text-decoration-color:var(--fam)}
+.idx .no{font-family:var(--mono);font-size:12px;color:var(--muted);min-width:20px;font-variant-numeric:tabular-nums;padding-top:2px}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+thead th{font:600 12px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+thead th.c{color:var(--cre)} thead th.s{color:var(--str)} thead th.b{color:var(--beh)}
+tbody th{font-weight:600;white-space:nowrap}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:6px 18px;font-size:14px}
+.legend .row{display:flex;align-items:center;gap:10px}
+.legend svg{flex:none}
+.notation{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:4px;font-size:14px;color:var(--muted)}
+.notation code{font-family:var(--mono);color:var(--fg);font-size:13px}
+
+/* famiglie */
+.famhead{margin-block:44px 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.famhead h2{font-size:clamp(26px,4vw,34px);color:var(--fam)}
+.famhead p{margin:0;color:var(--muted);max-width:70ch}
+.pat{background:var(--surface);border:1px solid var(--line);border-radius:8px;margin-block:18px;overflow:hidden;scroll-margin-top:70px}
+.pat-head{padding:22px 22px 0}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.pill{color:var(--fam);background:var(--fam-t);padding:3px 9px;border-radius:999px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:11px}
+.pat h2{font-size:clamp(25px,3.6vw,32px);font-weight:750;letter-spacing:-.01em;margin-top:10px}
+.aka{font-size:14px;color:var(--muted);margin:4px 0 0}
+.intent{font-size:17px;line-height:1.55;max-width:68ch;margin:12px 0 0}
+.diagram{margin-top:18px;border-block:1px solid var(--line);background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:20px 20px;overflow-x:auto;padding:18px 12px}
+.diagram svg{display:block;margin:0 auto;height:auto}
+.expl{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px 28px;padding:22px}
+.blk{min-width:0}
+.blk h3{font:600 11.5px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--fam);margin-bottom:6px}
+.blk p{margin:0}
+.roles{margin:0;display:grid;gap:6px}
+.roles div{display:grid;grid-template-columns:minmax(110px,max-content) 1fr;gap:10px}
+.roles dt{font-family:var(--mono);font-size:13px;font-weight:700;padding-top:2px}
+.roles dd{margin:0}
+.blk.warn{background:var(--fam-t);border-radius:6px;padding:14px 16px}
+.blk.warn h3{color:var(--fg)}
+.reveal{display:none;margin:16px 22px 22px;font:500 14px/1 var(--body);padding:10px 14px;border-radius:6px;border:1px dashed var(--fam);background:transparent;color:var(--fam);cursor:pointer}
+body.quiz .pat:not(.open) .expl, body.quiz .pat:not(.open) .intent{display:none}
+body.quiz .reveal{display:inline-block}
+body.quiz .pat.open .reveal{margin-top:0}
+footer{color:var(--muted);font-size:13px;padding-block:30px 50px}
+
+/* codice Java */
+:root{--code-bg:#eef1f6;--out-bg:#e4e8ef;--c-kw:#a3205c;--c-str:#2f7a1f;--c-com:#69717f;--c-ty:#1f5fa8;--c-num:#9a5400;--c-ann:#7a6200}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--code-bg:#0f131a;--out-bg:#0b0e13;--c-kw:#f07ab0;--c-str:#8fd17a;--c-com:#7f8898;--c-ty:#7fb2f0;--c-num:#e2a456;--c-ann:#d8c065}}
+:root[data-theme="dark"]{--code-bg:#0f131a;--out-bg:#0b0e13;--c-kw:#f07ab0;--c-str:#8fd17a;--c-com:#7f8898;--c-ty:#7fb2f0;--c-num:#e2a456;--c-ann:#d8c065}
+.code{border-top:1px solid var(--line)}
+.code summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 22px;font:600 11.5px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--fam)}
+.code summary::-webkit-details-marker{display:none}
+.code summary::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
+.code[open] summary::before{transform:rotate(45deg)}
+.code summary .ln{color:var(--muted);font-weight:400;letter-spacing:.04em;text-transform:none}
+.code summary:focus-visible{outline:2px solid var(--fam);outline-offset:-2px}
+.code-body{padding:0 22px 22px;display:grid;gap:10px}
+.code-wrap{position:relative;min-width:0}
+.code pre{margin:0;background:var(--code-bg);border-radius:6px;padding:14px 16px;overflow-x:auto;font:13px/1.55 var(--mono);color:var(--fg);tab-size:4}
+.code .out{background:var(--out-bg)}
+.code .lbl{font:600 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:4px 0 -2px}
+.copy{position:absolute;top:8px;right:8px;font:500 12px/1 var(--body);padding:7px 10px;border-radius:5px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.copy:focus-visible{outline:2px solid var(--fam);outline-offset:2px}
+.tk-k{color:var(--c-kw);font-weight:700}.tk-s{color:var(--c-str)}.tk-c{color:var(--c-com);font-style:italic}.tk-t{color:var(--c-ty)}.tk-n{color:var(--c-num)}.tk-a{color:var(--c-ann)}
+.allcode{margin-left:4px}
+body.quiz .pat:not(.open) .code{display:none}
+@media (max-width:520px){.code summary{padding:12px 16px}.code-body{padding:0 16px 18px}.code pre{font-size:12px}}
+
+/* UML */
+.uml text{font-family:var(--mono);font-size:12px;fill:var(--fg)}
+.uml .nm{font-weight:700;font-size:12.5px}
+.uml .stx{font-size:10.5px;fill:var(--muted)}
+.uml .bx{fill:var(--box)}
+.uml .hd{fill:var(--fam-t)}
+.uml .ol{fill:none;stroke:var(--ink);stroke-width:1.3}
+.uml .dv{stroke:var(--ink);stroke-width:1}
+.uml .e{fill:none;stroke:var(--ink);stroke-width:1.3}
+.uml .dash{stroke-dasharray:6 4}
+.uml .nt{fill:var(--note);stroke:var(--note-line);stroke-width:1.2}
+.uml .nl{fill:none;stroke:var(--note-line);stroke-width:1.1;stroke-dasharray:3 3}
+.uml .nt-t{font-size:11.5px;white-space:pre}
+.uml .el{font-size:11px;fill:var(--muted);paint-order:stroke;stroke:var(--paper);stroke-width:5px;stroke-linejoin:round}
+.uml .pk{fill:none;stroke:var(--muted);stroke-width:1.2;stroke-dasharray:2 0}
+.uml .pkt{fill:var(--paper);stroke:var(--muted);stroke-width:1.2}
+.mk-h{fill:var(--box);stroke:var(--ink);stroke-width:1.3}
+.mk-l{fill:none;stroke:var(--ink);stroke-width:1.3}
+.mk-s{fill:var(--ink);stroke:var(--ink);stroke-width:1.3}
+@media (max-width:520px){
+  .pat-head{padding:18px 16px 0}.expl{padding:18px 16px}.reveal{margin:14px 16px 18px}
+  .roles div{grid-template-columns:1fr;gap:0}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="m-tri" viewBox="0 0 14 14" refX="13" refY="7" markerWidth="14" markerHeight="14" markerUnits="userSpaceOnUse" orient="auto"><path class="mk-h" d="M1,1 L13,7 L1,13 z"/></marker>
+    <marker id="m-arr" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path class="mk-l" d="M1,1 L11,6 L1,11"/></marker>
+    <marker id="m-dia" viewBox="0 0 18 12" refX="1" refY="6" markerWidth="18" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path class="mk-h" d="M1,6 L9,1 L17,6 L9,11 z"/></marker>
+    <marker id="m-dif" viewBox="0 0 18 12" refX="1" refY="6" markerWidth="18" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto"><path class="mk-s" d="M1,6 L9,1 L17,6 L9,11 z"/></marker>
+  </defs>
+</svg>
+
+<header class="wrap top">
+  <div class="kicker">Ingegneria del software · Gamma, Helm, Johnson, Vlissides · 1994</div>
+  <h1>Design Pattern GoF</h1>
+  <p>I 23 pattern del catalogo “Design Patterns: Elements of Reusable Object-Oriented Software”, divisi per scopo. Per ognuno: intento, problema, soluzione, un esempio concreto, i partecipanti, il diagramma delle classi UML e un esempio in Java compilabile, con il suo output.</p>
+</header>
+
+<nav class="bar" aria-label="Filtri">
+  <div class="wrap" id="bar">
+    <button class="chip" data-f="all" aria-pressed="true">Tutti<span class="n">23</span></button>
+    <button class="chip" data-f="cre" aria-pressed="false">Creazionali<span class="n">5</span></button>
+    <button class="chip" data-f="str" aria-pressed="false">Strutturali<span class="n">7</span></button>
+    <button class="chip" data-f="beh" aria-pressed="false">Comportamentali<span class="n">11</span></button>
+    <span class="sp"></span>
+    <button class="chip" id="allcode" aria-pressed="false">Apri tutto il codice</button>
+    <button class="chip quiz" id="quiz" aria-pressed="false">Modalità ripasso</button>
+  </div>
+</nav>
+
+<main class="wrap">
+  <div class="intro">
+    <section class="panel" style="grid-column:1/-1">
+      <h3>Indice</h3>
+      <div class="idx" id="idx"></div>
+    </section>
+    <section class="panel">
+      <h3>Come leggere i diagrammi</h3>
+      <div class="legend" id="legend"></div>
+      <ul class="notation">
+        <li><code>«interface»</code> interfaccia · <code>«abstract»</code> classe astratta (nome in corsivo)</li>
+        <li><em>metodo in corsivo</em> = astratto · <u>sottolineato</u> = statico</li>
+        <li>Visibilità: <code>+</code> pubblico, <code>-</code> privato, <code>#</code> protetto</li>
+        <li>Il riquadro giallo è una nota con lo pseudocodice del metodo</li>
+      </ul>
+    </section>
+    <section class="panel">
+      <h3>Classificazione: scopo × ambito</h3>
+      <div class="tbl"><table>
+        <thead><tr><th></th><th class="c">Creazionali</th><th class="s">Strutturali</th><th class="b">Comportamentali</th></tr></thead>
+        <tbody>
+          <tr><th>Classe</th><td>Factory Method</td><td>Adapter (di classe)</td><td>Interpreter, Template Method</td></tr>
+          <tr><th>Oggetto</th><td>Abstract Factory, Builder, Prototype, Singleton</td><td>Adapter (di oggetto), Bridge, Composite, Decorator, Facade, Flyweight, Proxy</td><td>Chain of Responsibility, Command, Iterator, Mediator, Memento, Observer, State, Strategy, Visitor</td></tr>
+        </tbody>
+      </table></div>
+      <p style="margin:12px 0 0;font-size:14px;color:var(--muted)">Ambito di classe: le relazioni si fissano con l'ereditarietà, a compile time. Ambito di oggetto: le relazioni sono fra oggetti e possono cambiare a runtime.</p>
+    </section>
+  </div>
+  <div id="patterns"></div>
+</main>
+<footer class="wrap">Riferimento: E. Gamma, R. Helm, R. Johnson, J. Vlissides, Design Patterns, Addison-Wesley, 1994. I nomi delle classi nei diagrammi seguono quelli del libro.</footer>
+
+<script>
+const CODE={"abstract-factory": {"code": "// Prodotti astratti\ninterface Button   { void paint(); }\ninterface Checkbox { void paint(); }\n\n// Famiglia Windows\nclass WinButton implements Button     { public void paint() { System.out.println(\"[ OK ] pulsante Windows\"); } }\nclass WinCheckbox implements Checkbox { public void paint() { System.out.println(\"[x] checkbox Windows\"); } }\n\n// Famiglia macOS\nclass MacButton implements Button     { public void paint() { System.out.println(\"( OK ) pulsante macOS\"); } }\nclass MacCheckbox implements Checkbox { public void paint() { System.out.println(\"(v) checkbox macOS\"); } }\n\n// Abstract Factory: un metodo di creazione per ogni tipo di prodotto\ninterface GUIFactory {\n    Button createButton();\n    Checkbox createCheckbox();\n}\n\n// Factory concrete: ognuna crea una famiglia coerente\nclass WindowsFactory implements GUIFactory {\n    public Button createButton()     { return new WinButton(); }\n    public Checkbox createCheckbox() { return new WinCheckbox(); }\n}\n\nclass MacFactory implements GUIFactory {\n    public Button createButton()     { return new MacButton(); }\n    public Checkbox createCheckbox() { return new MacCheckbox(); }\n}\n\n// Client: conosce solo le interfacce astratte\nclass Application {\n    private final Button button;\n    private final Checkbox checkbox;\n\n    Application(GUIFactory factory) {\n        button = factory.createButton();\n        checkbox = factory.createCheckbox();\n    }\n\n    void paint() {\n        button.paint();\n        checkbox.paint();\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        String os = \"mac\";   // di solito letto dalla configurazione\n        GUIFactory factory = os.equals(\"mac\") ? new MacFactory() : new WindowsFactory();\n        new Application(factory).paint();\n    }\n}", "out": "( OK ) pulsante macOS\n(v) checkbox macOS"}, "adapter": {"code": "// Target: l'interfaccia che il nostro codice si aspetta\ninterface TemperatureSensor {\n    double getCelsius();\n}\n\n// Adaptee: classe di una libreria esterna che non possiamo modificare\nclass FahrenheitSensor {\n    double readFahrenheit() { return 98.6; }\n}\n\n// Adapter (di oggetto): implementa Target e contiene l'Adaptee\nclass FahrenheitAdapter implements TemperatureSensor {\n    private final FahrenheitSensor adaptee;\n\n    FahrenheitAdapter(FahrenheitSensor adaptee) { this.adaptee = adaptee; }\n\n    @Override\n    public double getCelsius() {\n        return (adaptee.readFahrenheit() - 32) * 5 / 9;   // traduce la chiamata\n    }\n}\n\n// Client: lavora solo con TemperatureSensor\nclass Thermostat {\n    void check(TemperatureSensor sensor) {\n        System.out.println(\"Temperatura: \" + Math.round(sensor.getCelsius()) + \" °C\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        TemperatureSensor sensor = new FahrenheitAdapter(new FahrenheitSensor());\n        new Thermostat().check(sensor);\n    }\n}", "out": "Temperatura: 37 °C"}, "bridge": {"code": "// Implementor: le operazioni primitive di ogni dispositivo\ninterface Device {\n    void powerOn();\n    void setVolume(int percent);\n    int getVolume();\n}\n\n// ConcreteImplementor\nclass Tv implements Device {\n    private int volume = 30;\n    public void powerOn()        { System.out.println(\"TV accesa\"); }\n    public void setVolume(int v) { volume = v; System.out.println(\"TV: volume \" + v); }\n    public int getVolume()       { return volume; }\n}\n\nclass Radio implements Device {\n    private int volume = 50;\n    public void powerOn()        { System.out.println(\"Radio accesa\"); }\n    public void setVolume(int v) { volume = v; System.out.println(\"Radio: volume \" + v); }\n    public int getVolume()       { return volume; }\n}\n\n// Abstraction: contiene il riferimento all'Implementor (il \"ponte\")\nclass RemoteControl {\n    protected final Device device;\n\n    RemoteControl(Device device) { this.device = device; }\n\n    void turnOn()   { device.powerOn(); }\n    void volumeUp() { device.setVolume(device.getVolume() + 10); }\n}\n\n// RefinedAbstraction: estende il telecomando, non i dispositivi\nclass AdvancedRemote extends RemoteControl {\n    AdvancedRemote(Device device) { super(device); }\n    void mute() { device.setVolume(0); }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        RemoteControl basic = new RemoteControl(new Tv());\n        basic.turnOn();\n        basic.volumeUp();\n\n        AdvancedRemote advanced = new AdvancedRemote(new Radio());\n        advanced.turnOn();\n        advanced.mute();\n    }\n}", "out": "TV accesa\nTV: volume 40\nRadio accesa\nRadio: volume 0"}, "builder": {"code": "// Product\nclass Document {\n    private final StringBuilder content = new StringBuilder();\n    void add(String part) { content.append(part).append('\\n'); }\n    @Override public String toString() { return content.toString(); }\n}\n\n// Builder: dichiara i passi di costruzione\ninterface DocumentBuilder {\n    void buildTitle(String text);\n    void buildParagraph(String text);\n    Document getResult();\n}\n\n// ConcreteBuilder: stessi passi, rappresentazioni diverse\nclass HtmlBuilder implements DocumentBuilder {\n    private final Document doc = new Document();\n    public void buildTitle(String t)     { doc.add(\"<h1>\" + t + \"<\/h1>\"); }\n    public void buildParagraph(String p) { doc.add(\"<p>\" + p + \"<\/p>\"); }\n    public Document getResult()          { return doc; }\n}\n\nclass MarkdownBuilder implements DocumentBuilder {\n    private final Document doc = new Document();\n    public void buildTitle(String t)     { doc.add(\"# \" + t); }\n    public void buildParagraph(String p) { doc.add(p); }\n    public Document getResult()          { return doc; }\n}\n\n// Director: conosce l'ordine dei passi, non il formato\nclass ReportDirector {\n    void construct(DocumentBuilder b) {\n        b.buildTitle(\"Relazione\");\n        b.buildParagraph(\"Introduzione\");\n        b.buildParagraph(\"Conclusioni\");\n    }\n}\n\n// Variante \"fluent\" molto usata in Java, per oggetti con molti parametri opzionali\nclass Pizza {\n    private final int size;\n    private final boolean cheese, ham;\n\n    private Pizza(Builder b) { size = b.size; cheese = b.cheese; ham = b.ham; }\n\n    static class Builder {\n        private final int size;\n        private boolean cheese, ham;\n        Builder(int size)  { this.size = size; }\n        Builder cheese()   { cheese = true; return this; }\n        Builder ham()      { ham = true; return this; }\n        Pizza build()      { return new Pizza(this); }\n    }\n\n    @Override public String toString() {\n        return \"Pizza \" + size + \" cm, formaggio=\" + cheese + \", prosciutto=\" + ham;\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        ReportDirector director = new ReportDirector();\n\n        DocumentBuilder html = new HtmlBuilder();\n        director.construct(html);\n        System.out.print(html.getResult());\n\n        DocumentBuilder md = new MarkdownBuilder();\n        director.construct(md);\n        System.out.print(md.getResult());\n\n        Pizza p = new Pizza.Builder(30).cheese().build();\n        System.out.println(p);\n    }\n}", "out": "<h1>Relazione<\/h1>\n<p>Introduzione<\/p>\n<p>Conclusioni<\/p>\n# Relazione\nIntroduzione\nConclusioni\nPizza 30 cm, formaggio=true, prosciutto=false"}, "chain-of-responsibility": {"code": "// Handler: conosce il successivo nella catena\nabstract class Approver {\n    private Approver next;\n    private final String role;\n\n    Approver(String role) { this.role = role; }\n\n    Approver setNext(Approver next) {\n        this.next = next;\n        return next;                   // permette di concatenare le chiamate\n    }\n\n    void handle(int amount) {\n        if (canApprove(amount)) {\n            System.out.println(role + \" approva \" + amount + \" euro\");\n        } else if (next != null) {\n            next.handle(amount);       // passa la richiesta avanti\n        } else {\n            System.out.println(\"Nessuno può approvare \" + amount + \" euro\");\n        }\n    }\n\n    protected abstract boolean canApprove(int amount);\n}\n\n// ConcreteHandler\nclass TeamLeader extends Approver {\n    TeamLeader() { super(\"Caposquadra\"); }\n    protected boolean canApprove(int amount) { return amount <= 500; }\n}\n\nclass Manager extends Approver {\n    Manager() { super(\"Manager\"); }\n    protected boolean canApprove(int amount) { return amount <= 5_000; }\n}\n\nclass Director extends Approver {\n    Director() { super(\"Direttore\"); }\n    protected boolean canApprove(int amount) { return amount <= 50_000; }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Approver chain = new TeamLeader();\n        chain.setNext(new Manager()).setNext(new Director());\n\n        chain.handle(300);\n        chain.handle(2_500);\n        chain.handle(20_000);\n        chain.handle(90_000);\n    }\n}", "out": "Caposquadra approva 300 euro\nManager approva 2500 euro\nDirettore approva 20000 euro\nNessuno può approvare 90000 euro"}, "command": {"code": "import java.util.ArrayDeque;\nimport java.util.Deque;\n\n// Receiver: sa fare il lavoro vero\nclass TextEditor {\n    private final StringBuilder text = new StringBuilder();\n    void insert(String s)  { text.append(s); }\n    void deleteLast(int n) { text.setLength(text.length() - n); }\n    String getText()       { return text.toString(); }\n}\n\n// Command\ninterface Command {\n    void execute();\n    void undo();\n}\n\n// ConcreteCommand: lega un Receiver a un'azione\nclass InsertCommand implements Command {\n    private final TextEditor editor;\n    private final String s;\n\n    InsertCommand(TextEditor editor, String s) { this.editor = editor; this.s = s; }\n\n    public void execute() { editor.insert(s); }\n    public void undo()    { editor.deleteLast(s.length()); }\n}\n\n// Invoker: esegue i comandi e ne conserva la storia per l'undo\nclass CommandManager {\n    private final Deque<Command> history = new ArrayDeque<>();\n\n    void run(Command c) {\n        c.execute();\n        history.push(c);\n    }\n\n    void undo() {\n        if (!history.isEmpty()) history.pop().undo();\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        TextEditor editor = new TextEditor();          // Client: crea comandi e receiver\n        CommandManager manager = new CommandManager();\n\n        manager.run(new InsertCommand(editor, \"Ciao\"));\n        manager.run(new InsertCommand(editor, \" mondo\"));\n        System.out.println(editor.getText());\n\n        manager.undo();\n        System.out.println(editor.getText());\n    }\n}", "out": "Ciao mondo\nCiao"}, "composite": {"code": "import java.util.ArrayList;\nimport java.util.List;\n\n// Component: interfaccia comune a file e cartelle\ninterface FileSystemItem {\n    long getSize();\n    void print(String indent);\n}\n\n// Leaf\nclass File implements FileSystemItem {\n    private final String name;\n    private final long size;\n\n    File(String name, long size) { this.name = name; this.size = size; }\n\n    public long getSize() { return size; }\n    public void print(String indent) { System.out.println(indent + name + \" (\" + size + \" KB)\"); }\n}\n\n// Composite: contiene altri Component e delega a loro\nclass Folder implements FileSystemItem {\n    private final String name;\n    private final List<FileSystemItem> children = new ArrayList<>();\n\n    Folder(String name) { this.name = name; }\n\n    void add(FileSystemItem item)    { children.add(item); }\n    void remove(FileSystemItem item) { children.remove(item); }\n\n    public long getSize() {\n        long total = 0;\n        for (FileSystemItem child : children) total += child.getSize();   // ricorsione\n        return total;\n    }\n\n    public void print(String indent) {\n        System.out.println(indent + name + \"/ (\" + getSize() + \" KB)\");\n        for (FileSystemItem child : children) child.print(indent + \"  \");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Folder src = new Folder(\"src\");\n        src.add(new File(\"Main.java\", 4));\n        src.add(new File(\"Util.java\", 2));\n\n        Folder root = new Folder(\"progetto\");\n        root.add(src);\n        root.add(new File(\"README.md\", 1));\n\n        root.print(\"\");                                   // stesso metodo per foglie e cartelle\n        System.out.println(\"Totale: \" + root.getSize() + \" KB\");\n    }\n}", "out": "progetto/ (7 KB)\n  src/ (6 KB)\n    Main.java (4 KB)\n    Util.java (2 KB)\n  README.md (1 KB)\nTotale: 7 KB"}, "decorator": {"code": "// Component\ninterface Coffee {\n    String getDescription();\n    double getCost();\n}\n\n// ConcreteComponent\nclass Espresso implements Coffee {\n    public String getDescription() { return \"Espresso\"; }\n    public double getCost()        { return 1.10; }\n}\n\n// Decorator: stessa interfaccia, contiene il componente decorato\nabstract class CoffeeDecorator implements Coffee {\n    protected final Coffee wrappee;\n\n    CoffeeDecorator(Coffee wrappee) { this.wrappee = wrappee; }\n\n    public String getDescription() { return wrappee.getDescription(); }\n    public double getCost()        { return wrappee.getCost(); }\n}\n\n// ConcreteDecorator: aggiungono comportamento prima o dopo la delega\nclass Milk extends CoffeeDecorator {\n    Milk(Coffee c) { super(c); }\n    @Override public String getDescription() { return wrappee.getDescription() + \" + latte\"; }\n    @Override public double getCost()        { return wrappee.getCost() + 0.30; }\n}\n\nclass Caramel extends CoffeeDecorator {\n    Caramel(Coffee c) { super(c); }\n    @Override public String getDescription() { return wrappee.getDescription() + \" + caramello\"; }\n    @Override public double getCost()        { return wrappee.getCost() + 0.50; }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Coffee plain = new Espresso();\n        Coffee fancy = new Milk(new Caramel(new Espresso()));   // decoratori annidati\n\n        System.out.println(plain.getDescription() + \" = \" + String.format(\"%.2f\", plain.getCost()) + \" euro\");\n        System.out.println(fancy.getDescription() + \" = \" + String.format(\"%.2f\", fancy.getCost()) + \" euro\");\n    }\n}", "out": "Espresso = 1.10 euro\nEspresso + caramello + latte = 1.90 euro"}, "facade": {"code": "// Classi del sottosistema: complesse e da chiamare in un ordine preciso\nclass VideoFile {\n    final String name, codec;\n    VideoFile(String name) {\n        this.name = name;\n        this.codec = name.substring(name.lastIndexOf('.') + 1);\n    }\n}\n\nclass CodecFactory {\n    String extract(VideoFile f) {\n        System.out.println(\"Codec sorgente: \" + f.codec);\n        return f.codec;\n    }\n}\n\nclass BitrateReader {\n    static String read(VideoFile f, String codec) {\n        System.out.println(\"Decodifica \" + f.name);\n        return \"buffer\";\n    }\n    static String convert(String buffer, String codec) {\n        System.out.println(\"Ricodifica in \" + codec);\n        return buffer + \"-\" + codec;\n    }\n}\n\nclass AudioMixer {\n    String fix(String data) {\n        System.out.println(\"Normalizza l'audio\");\n        return data;\n    }\n}\n\n// Facade: un solo metodo semplice che nasconde tutto il resto\nclass VideoConverter {\n    public String convert(String fileName, String format) {\n        VideoFile file = new VideoFile(fileName);\n        String sourceCodec = new CodecFactory().extract(file);\n        String buffer = BitrateReader.read(file, sourceCodec);\n        String result = BitrateReader.convert(buffer, format);\n        new AudioMixer().fix(result);\n        return fileName.substring(0, fileName.lastIndexOf('.') + 1) + format;\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        String out = new VideoConverter().convert(\"film.ogg\", \"mp4\");\n        System.out.println(\"Creato \" + out);\n    }\n}", "out": "Codec sorgente: ogg\nDecodifica film.ogg\nRicodifica in mp4\nNormalizza l'audio\nCreato film.mp4"}, "factory-method": {"code": "// Product\ninterface Transport { void deliver(); }\n\n// ConcreteProduct\nclass Truck implements Transport { public void deliver() { System.out.println(\"Consegna via strada con un camion\"); } }\nclass Ship  implements Transport { public void deliver() { System.out.println(\"Consegna via mare con una nave\"); } }\n\n// Creator: usa il prodotto senza sapere quale classe sia\nabstract class Logistics {\n    protected abstract Transport createTransport();   // factory method\n\n    public void planDelivery() {\n        Transport t = createTransport();\n        t.deliver();\n    }\n}\n\n// ConcreteCreator: decidono quale classe istanziare\nclass RoadLogistics extends Logistics {\n    @Override protected Transport createTransport() { return new Truck(); }\n}\n\nclass SeaLogistics extends Logistics {\n    @Override protected Transport createTransport() { return new Ship(); }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Logistics logistics = new RoadLogistics();\n        logistics.planDelivery();\n\n        logistics = new SeaLogistics();\n        logistics.planDelivery();\n    }\n}", "out": "Consegna via strada con un camion\nConsegna via mare con una nave"}, "flyweight": {"code": "import java.util.ArrayList;\nimport java.util.HashMap;\nimport java.util.List;\nimport java.util.Map;\n\n// Flyweight: stato intrinseco, condiviso e immutabile\nfinal class TreeType {\n    private final String species, color, texture;\n\n    TreeType(String species, String color, String texture) {\n        this.species = species;\n        this.color = color;\n        this.texture = texture;\n    }\n\n    void draw(int x, int y) {          // x e y sono lo stato estrinseco\n        System.out.println(species + \" (\" + color + \", \" + texture + \") in \" + x + \",\" + y);\n    }\n}\n\n// FlyweightFactory: restituisce sempre lo stesso oggetto per la stessa chiave\nclass TreeFactory {\n    private static final Map<String, TreeType> pool = new HashMap<>();\n\n    static TreeType getTreeType(String species, String color, String texture) {\n        String key = species + \"|\" + color + \"|\" + texture;\n        return pool.computeIfAbsent(key, k -> new TreeType(species, color, texture));\n    }\n\n    static int poolSize() { return pool.size(); }\n}\n\n// Contesto: solo stato estrinseco più il riferimento al flyweight\nclass Tree {\n    private final int x, y;\n    private final TreeType type;\n\n    Tree(int x, int y, TreeType type) { this.x = x; this.y = y; this.type = type; }\n\n    void draw() { type.draw(x, y); }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        List<Tree> forest = new ArrayList<>();\n        for (int i = 0; i < 100_000; i++) {\n            TreeType type = (i % 2 == 0)\n                ? TreeFactory.getTreeType(\"Quercia\", \"verde\", \"quercia.png\")\n                : TreeFactory.getTreeType(\"Betulla\", \"chiaro\", \"betulla.png\");\n            forest.add(new Tree(i, i * 2, type));\n        }\n        forest.get(0).draw();\n        forest.get(1).draw();\n        System.out.println(\"Alberi: \" + forest.size() + \", oggetti TreeType in memoria: \" + TreeFactory.poolSize());\n    }\n}", "out": "Quercia (verde, quercia.png) in 0,0\nBetulla (chiaro, betulla.png) in 1,2\nAlberi: 100000, oggetti TreeType in memoria: 2"}, "interpreter": {"code": "import java.util.HashMap;\nimport java.util.Map;\n\n// Context: valori delle variabili\nclass Context {\n    private final Map<String, Integer> vars = new HashMap<>();\n    void set(String name, int value) { vars.put(name, value); }\n    int get(String name)             { return vars.get(name); }\n}\n\n// AbstractExpression\ninterface Expression {\n    int interpret(Context ctx);\n}\n\n// TerminalExpression\nclass Constant implements Expression {\n    private final int value;\n    Constant(int value) { this.value = value; }\n    public int interpret(Context ctx) { return value; }\n}\n\nclass Variable implements Expression {\n    private final String name;\n    Variable(String name) { this.name = name; }\n    public int interpret(Context ctx) { return ctx.get(name); }\n}\n\n// NonterminalExpression: contengono altre espressioni\nclass Add implements Expression {\n    private final Expression left, right;\n    Add(Expression left, Expression right) { this.left = left; this.right = right; }\n    public int interpret(Context ctx) { return left.interpret(ctx) + right.interpret(ctx); }\n}\n\nclass Multiply implements Expression {\n    private final Expression left, right;\n    Multiply(Expression left, Expression right) { this.left = left; this.right = right; }\n    public int interpret(Context ctx) { return left.interpret(ctx) * right.interpret(ctx); }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        // Albero sintattico di \"3 + x * 2\"\n        Expression expr = new Add(\n            new Constant(3),\n            new Multiply(new Variable(\"x\"), new Constant(2)));\n\n        Context ctx = new Context();\n        ctx.set(\"x\", 5);\n        System.out.println(\"3 + x * 2 con x = 5  ->  \" + expr.interpret(ctx));\n    }\n}", "out": "3 + x * 2 con x = 5  ->  13"}, "iterator": {"code": "import java.util.Iterator;\nimport java.util.NoSuchElementException;\n\n// ConcreteAggregate: Iterable è l'interfaccia Aggregate di Java\nclass Playlist implements Iterable<String> {\n    private final String[] songs;\n\n    Playlist(String... songs) { this.songs = songs; }\n\n    @Override\n    public Iterator<String> iterator() {    // createIterator(): è un factory method\n        return new PlaylistIterator();\n    }\n\n    // ConcreteIterator: tiene la posizione corrente\n    private class PlaylistIterator implements Iterator<String> {\n        private int position = 0;\n\n        public boolean hasNext() { return position < songs.length; }\n\n        public String next() {\n            if (!hasNext()) throw new NoSuchElementException();\n            return songs[position++];\n        }\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Playlist playlist = new Playlist(\"Volare\", \"Azzurro\", \"Albachiara\");\n\n        Iterator<String> it = playlist.iterator();\n        while (it.hasNext()) {\n            System.out.println(\"while: \" + it.next());\n        }\n\n        for (String song : playlist) {          // il for-each usa iterator() dietro le quinte\n            System.out.println(\"for-each: \" + song);\n        }\n    }\n}", "out": "while: Volare\nwhile: Azzurro\nwhile: Albachiara\nfor-each: Volare\nfor-each: Azzurro\nfor-each: Albachiara"}, "mediator": {"code": "// Mediator\ninterface Mediator {\n    void onEvent(Component sender, String event);\n}\n\n// Colleague: conosce solo il mediator, non gli altri componenti\nabstract class Component {\n    protected Mediator mediator;\n    void setMediator(Mediator m) { mediator = m; }\n}\n\nclass Checkbox extends Component {\n    private boolean checked;\n    void setChecked(boolean checked) {\n        this.checked = checked;\n        mediator.onEvent(this, \"check\");      // avvisa il mediator, non il campo di testo\n    }\n    boolean isChecked() { return checked; }\n}\n\nclass TextField extends Component {\n    private final String label;\n    TextField(String label) { this.label = label; }\n    void setEnabled(boolean enabled) {\n        System.out.println(label + (enabled ? \" abilitato\" : \" disabilitato\"));\n    }\n}\n\n// ConcreteMediator: tutta la logica di coordinamento sta qui\nclass RegistrationDialog implements Mediator {\n    private final Checkbox isCompany = new Checkbox();\n    private final TextField vatNumber = new TextField(\"Campo Partita IVA\");\n\n    RegistrationDialog() {\n        isCompany.setMediator(this);\n        vatNumber.setMediator(this);\n    }\n\n    public void onEvent(Component sender, String event) {\n        if (sender == isCompany) {\n            vatNumber.setEnabled(isCompany.isChecked());\n        }\n    }\n\n    Checkbox companyCheckbox() { return isCompany; }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        RegistrationDialog dialog = new RegistrationDialog();\n        dialog.companyCheckbox().setChecked(true);\n        dialog.companyCheckbox().setChecked(false);\n    }\n}", "out": "Campo Partita IVA abilitato\nCampo Partita IVA disabilitato"}, "memento": {"code": "import java.util.ArrayDeque;\nimport java.util.Deque;\n\n// Originator\nclass Editor {\n    private String text = \"\";\n    private int cursor = 0;\n\n    void type(String s) {\n        text += s;\n        cursor = text.length();\n    }\n\n    Memento save()           { return new Memento(text, cursor); }\n    void restore(Memento m)  { text = m.text; cursor = m.cursor; }\n\n    @Override public String toString() { return \"\\\"\" + text + \"\\\" (cursore \" + cursor + \")\"; }\n\n    // Memento: classe annidata, i campi privati li legge solo Editor\n    static final class Memento {\n        private final String text;\n        private final int cursor;\n        private Memento(String text, int cursor) { this.text = text; this.cursor = cursor; }\n    }\n}\n\n// Caretaker: conserva i memento senza guardarci dentro\nclass History {\n    private final Deque<Editor.Memento> stack = new ArrayDeque<>();\n    void push(Editor.Memento m) { stack.push(m); }\n    Editor.Memento pop()        { return stack.pop(); }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Editor editor = new Editor();\n        History history = new History();\n\n        editor.type(\"Design\");\n        history.push(editor.save());\n        editor.type(\" Pattern\");\n        history.push(editor.save());\n        editor.type(\" errore!!!\");\n        System.out.println(editor);\n\n        editor.restore(history.pop());\n        System.out.println(\"undo -> \" + editor);\n        editor.restore(history.pop());\n        System.out.println(\"undo -> \" + editor);\n    }\n}", "out": "\"Design Pattern errore!!!\" (cursore 24)\nundo -> \"Design Pattern\" (cursore 14)\nundo -> \"Design\" (cursore 6)"}, "observer": {"code": "import java.util.ArrayList;\nimport java.util.List;\n\n// Observer\ninterface Observer {\n    void update(Cell source);\n}\n\n// Subject (qui unito a ConcreteSubject per brevità)\nclass Cell {\n    private final List<Observer> observers = new ArrayList<>();\n    private int value;\n\n    void attach(Observer o) { observers.add(o); }\n    void detach(Observer o) { observers.remove(o); }\n\n    private void notifyObservers() {\n        for (Observer o : observers) o.update(this);\n    }\n\n    int getValue() { return value; }\n\n    void setValue(int value) {\n        this.value = value;\n        notifyObservers();              // ogni cambiamento avvisa tutti\n    }\n}\n\n// ConcreteObserver: modello \"pull\", leggono lo stato dal soggetto\nclass Chart implements Observer {\n    public void update(Cell c) { System.out.println(\"Grafico ridisegnato con valore \" + c.getValue()); }\n}\n\nclass Table implements Observer {\n    public void update(Cell c) { System.out.println(\"Tabella aggiornata: \" + c.getValue()); }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Cell a1 = new Cell();\n        Chart chart = new Chart();\n        Table table = new Table();\n\n        a1.attach(chart);\n        a1.attach(table);\n        a1.setValue(42);\n\n        a1.detach(chart);\n        a1.setValue(7);                 // ora riceve la notifica solo la tabella\n    }\n}", "out": "Grafico ridisegnato con valore 42\nTabella aggiornata: 42\nTabella aggiornata: 7"}, "prototype": {"code": "import java.util.HashMap;\nimport java.util.Map;\n\n// Prototype\nabstract class Shape {\n    int x, y;\n    String color;\n\n    Shape() {}\n    Shape(Shape source) {              // costruttore di copia\n        x = source.x;\n        y = source.y;\n        color = source.color;\n    }\n\n    @Override public abstract Shape clone();\n}\n\n// ConcretePrototype\nclass Circle extends Shape {\n    int radius;\n    Circle() {}\n    Circle(Circle source) { super(source); radius = source.radius; }\n    @Override public Circle clone() { return new Circle(this); }\n    @Override public String toString() {\n        return \"Cerchio \" + color + \" r=\" + radius + \" in (\" + x + \",\" + y + \")\";\n    }\n}\n\nclass Rectangle extends Shape {\n    int width, height;\n    Rectangle() {}\n    Rectangle(Rectangle source) { super(source); width = source.width; height = source.height; }\n    @Override public Rectangle clone() { return new Rectangle(this); }\n    @Override public String toString() {\n        return \"Rettangolo \" + color + \" \" + width + \"x\" + height + \" in (\" + x + \",\" + y + \")\";\n    }\n}\n\n// Registro dei prototipi già configurati (la \"palette\")\nclass ShapeRegistry {\n    private final Map<String, Shape> prototypes = new HashMap<>();\n    void add(String key, Shape s) { prototypes.put(key, s); }\n    Shape get(String key)         { return prototypes.get(key).clone(); }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Circle c = new Circle();\n        c.color = \"rosso\"; c.radius = 10;\n        Rectangle r = new Rectangle();\n        r.color = \"blu\"; r.width = 20; r.height = 8;\n\n        ShapeRegistry palette = new ShapeRegistry();\n        palette.add(\"cerchio rosso\", c);\n        palette.add(\"rettangolo blu\", r);\n\n        Shape s1 = palette.get(\"cerchio rosso\");\n        s1.x = 5;  s1.y = 5;\n        Shape s2 = palette.get(\"cerchio rosso\");\n        s2.x = 40; s2.y = 12;\n\n        System.out.println(s1);\n        System.out.println(s2);\n        System.out.println(\"Stesso oggetto? \" + (s1 == s2));\n    }\n}", "out": "Cerchio rosso r=10 in (5,5)\nCerchio rosso r=10 in (40,12)\nStesso oggetto? false"}, "proxy": {"code": "// Subject\ninterface Image {\n    void display();\n}\n\n// RealSubject: costoso da creare\nclass RealImage implements Image {\n    private final String file;\n\n    RealImage(String file) {\n        this.file = file;\n        System.out.println(\"Caricamento da disco di \" + file + \"...\");\n    }\n\n    public void display() { System.out.println(\"Mostro \" + file); }\n}\n\n// Proxy virtuale: crea l'oggetto reale solo quando serve davvero\nclass ImageProxy implements Image {\n    private final String file;\n    private RealImage real;            // null finché non serve\n\n    ImageProxy(String file) { this.file = file; }\n\n    public void display() {\n        if (real == null) {\n            real = new RealImage(file);   // lazy loading\n        }\n        real.display();\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Image img = new ImageProxy(\"foto_4k.png\");\n        System.out.println(\"Documento aperto: l'immagine non è ancora stata caricata\");\n        img.display();   // primo accesso: carica e mostra\n        img.display();   // secondo accesso: mostra soltanto\n    }\n}", "out": "Documento aperto: l'immagine non è ancora stata caricata\nCaricamento da disco di foto_4k.png...\nMostro foto_4k.png\nMostro foto_4k.png"}, "singleton": {"code": "// Versione lazy e thread-safe con synchronized\nfinal class Logger {\n    private static Logger instance;        // l'unica istanza\n    private int count = 0;\n\n    private Logger() {}                    // nessuno può fare new Logger()\n\n    public static synchronized Logger getInstance() {\n        if (instance == null) {\n            instance = new Logger();       // creata alla prima richiesta\n        }\n        return instance;\n    }\n\n    public void log(String msg) {\n        count++;\n        System.out.println(\"[\" + count + \"] \" + msg);\n    }\n}\n\n// Alternativa consigliata in Java: enum con un solo valore\n// (thread-safe e resistente a serializzazione e reflection)\nenum Config {\n    INSTANCE;\n    String dbUrl = \"jdbc:postgresql://localhost/app\";\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Logger a = Logger.getInstance();\n        Logger b = Logger.getInstance();\n        a.log(\"avvio\");\n        b.log(\"connessione aperta\");     // stesso contatore: è lo stesso oggetto\n        System.out.println(\"a == b ? \" + (a == b));\n        System.out.println(Config.INSTANCE.dbUrl);\n    }\n}", "out": "[1] avvio\n[2] connessione aperta\na == b ? true\njdbc:postgresql://localhost/app"}, "state": {"code": "// State\ninterface State {\n    void insertCoin(VendingMachine m);\n    void pressButton(VendingMachine m);\n}\n\n// ConcreteState: ogni stato decide cosa fare e quale sarà lo stato successivo\nclass Idle implements State {\n    public void insertCoin(VendingMachine m) {\n        System.out.println(\"Moneta inserita\");\n        m.setState(new HasCoin());      // transizione\n    }\n    public void pressButton(VendingMachine m) {\n        System.out.println(\"Inserisci prima una moneta\");\n    }\n}\n\nclass HasCoin implements State {\n    public void insertCoin(VendingMachine m) {\n        System.out.println(\"Hai già inserito una moneta\");\n    }\n    public void pressButton(VendingMachine m) {\n        System.out.println(\"Ecco il tuo caffè\");\n        m.setState(new Idle());         // transizione\n    }\n}\n\n// Context: delega tutto allo stato corrente, nessuno switch\nclass VendingMachine {\n    private State state = new Idle();\n\n    void setState(State s) { state = s; }\n\n    void insertCoin()  { state.insertCoin(this); }\n    void pressButton() { state.pressButton(this); }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        VendingMachine machine = new VendingMachine();\n        machine.pressButton();\n        machine.insertCoin();\n        machine.insertCoin();\n        machine.pressButton();\n    }\n}", "out": "Inserisci prima una moneta\nMoneta inserita\nHai già inserito una moneta\nEcco il tuo caffè"}, "strategy": {"code": "import java.util.Arrays;\nimport java.util.Comparator;\n\n// Strategy\ninterface RouteStrategy {\n    String buildRoute(String from, String to);\n}\n\n// ConcreteStrategy\nclass CarStrategy implements RouteStrategy {\n    public String buildRoute(String from, String to) { return from + \" -> tangenziale -> \" + to + \" (in auto)\"; }\n}\n\nclass WalkStrategy implements RouteStrategy {\n    public String buildRoute(String from, String to) { return from + \" -> parco -> \" + to + \" (a piedi)\"; }\n}\n\n// Context: usa la strategia senza conoscerne la classe\nclass Navigator {\n    private RouteStrategy strategy;\n\n    void setStrategy(RouteStrategy strategy) { this.strategy = strategy; }\n\n    void navigate(String from, String to) {\n        System.out.println(strategy.buildRoute(from, to));\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Navigator nav = new Navigator();\n\n        nav.setStrategy(new CarStrategy());\n        nav.navigate(\"Casa\", \"Università\");\n\n        nav.setStrategy(new WalkStrategy());          // cambio di algoritmo a runtime\n        nav.navigate(\"Casa\", \"Università\");\n\n        // Un'interfaccia con un solo metodo accetta anche una lambda\n        nav.setStrategy((from, to) -> from + \" -> pista ciclabile -> \" + to + \" (in bici)\");\n        nav.navigate(\"Casa\", \"Università\");\n\n        // Nella libreria standard: Comparator è una strategia di ordinamento\n        String[] names = {\"Bianchi\", \"Verdi\", \"Rossi\"};\n        Arrays.sort(names, Comparator.reverseOrder());\n        System.out.println(Arrays.toString(names));\n    }\n}", "out": "Casa -> tangenziale -> Università (in auto)\nCasa -> parco -> Università (a piedi)\nCasa -> pista ciclabile -> Università (in bici)\n[Verdi, Rossi, Bianchi]"}, "template-method": {"code": "// AbstractClass\nabstract class HotBeverage {\n\n    // Template method: final, così le sottoclassi non cambiano l'ordine dei passi\n    public final void prepare() {\n        boilWater();\n        brew();\n        pourInCup();\n        if (wantsCondiments()) addCondiments();\n    }\n\n    private void boilWater() { System.out.println(\"Faccio bollire l'acqua\"); }\n    private void pourInCup() { System.out.println(\"Verso nella tazza\"); }\n\n    protected abstract void brew();             // passo primitivo\n    protected abstract void addCondiments();    // passo primitivo\n\n    protected boolean wantsCondiments() {       // hook: default ridefinibile\n        return true;\n    }\n}\n\n// ConcreteClass\nclass Tea extends HotBeverage {\n    protected void brew()          { System.out.println(\"Lascio in infusione la bustina\"); }\n    protected void addCondiments() { System.out.println(\"Aggiungo il limone\"); }\n}\n\nclass Coffee extends HotBeverage {\n    protected void brew()          { System.out.println(\"Filtro il caffè macinato\"); }\n    protected void addCondiments() { System.out.println(\"Aggiungo lo zucchero\"); }\n    @Override protected boolean wantsCondiments() { return false; }   // amaro\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        new Tea().prepare();\n        System.out.println(\"---\");\n        new Coffee().prepare();\n    }\n}", "out": "Faccio bollire l'acqua\nLascio in infusione la bustina\nVerso nella tazza\nAggiungo il limone\n---\nFaccio bollire l'acqua\nFiltro il caffè macinato\nVerso nella tazza"}, "visitor": {"code": "import java.util.List;\n\n// Visitor: un metodo per ogni tipo di elemento\ninterface ShapeVisitor {\n    void visitCircle(Circle c);\n    void visitRectangle(Rectangle r);\n}\n\n// Element\ninterface Shape {\n    void accept(ShapeVisitor v);\n}\n\n// ConcreteElement: accept chiama il visit giusto (double dispatch)\nclass Circle implements Shape {\n    final int radius;\n    Circle(int radius) { this.radius = radius; }\n    public void accept(ShapeVisitor v) { v.visitCircle(this); }\n}\n\nclass Rectangle implements Shape {\n    final int width, height;\n    Rectangle(int width, int height) { this.width = width; this.height = height; }\n    public void accept(ShapeVisitor v) { v.visitRectangle(this); }\n}\n\n// ConcreteVisitor: ogni operazione nuova è una classe nuova\nclass AreaVisitor implements ShapeVisitor {\n    double total = 0;\n    public void visitCircle(Circle c)       { total += Math.PI * c.radius * c.radius; }\n    public void visitRectangle(Rectangle r) { total += r.width * r.height; }\n}\n\nclass XmlExportVisitor implements ShapeVisitor {\n    final StringBuilder xml = new StringBuilder();\n    public void visitCircle(Circle c) {\n        xml.append(\"<circle r=\\\"\").append(c.radius).append(\"\\\"/>\\n\");\n    }\n    public void visitRectangle(Rectangle r) {\n        xml.append(\"<rect w=\\\"\").append(r.width).append(\"\\\" h=\\\"\").append(r.height).append(\"\\\"/>\\n\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        List<Shape> drawing = List.of(new Circle(1), new Rectangle(3, 4));   // ObjectStructure\n\n        AreaVisitor area = new AreaVisitor();\n        XmlExportVisitor export = new XmlExportVisitor();\n        for (Shape s : drawing) {\n            s.accept(area);\n            s.accept(export);\n        }\n\n        System.out.println(\"Area totale: \" + String.format(\"%.2f\", area.total));\n        System.out.print(export.xml);\n    }\n}", "out": "Area totale: 15.14\n<circle r=\"1\"/>\n<rect w=\"3\" h=\"4\"/>"}};
+</script>
+<script>
+const FAMS={
+  cre:{name:"Creazionali",one:"Creazionale",desc:"Astraggono il processo di istanziazione: rendono il sistema indipendente da come gli oggetti vengono creati, composti e rappresentati."},
+  str:{name:"Strutturali",one:"Strutturale",desc:"Riguardano come classi e oggetti si compongono per formare strutture più grandi."},
+  beh:{name:"Comportamentali",one:"Comportamentale",desc:"Riguardano gli algoritmi e la distribuzione delle responsabilità fra oggetti, cioè come comunicano."}
+};
+
+const P=[
+/* ---------------- CREAZIONALI ---------------- */
+{id:"abstract-factory",n:"Abstract Factory",f:"cre",scope:"oggetto",aka:"Kit",
+intent:`Fornisce un'interfaccia per creare famiglie di oggetti correlati o dipendenti senza specificarne le classi concrete.`,
+prob:`L'applicazione deve funzionare con più famiglie di prodotti (per esempio i widget di Windows e quelli di macOS) e i prodotti di una famiglia vanno usati insieme, senza mescolarli. Se il client scrive new WinButton() ovunque, cambiare famiglia significa modificare tutto il codice.`,
+sol:`Si definisce un'interfaccia factory con un metodo di creazione per ogni tipo di prodotto. Ogni famiglia ha la sua factory concreta. Il client riceve una factory all'avvio e lavora solo con le interfacce astratte dei prodotti.`,
+ex:`Toolkit grafico: GUIFactory dichiara createButton() e createCheckbox(). WindowsFactory crea WinButton e WinCheckbox, MacFactory crea MacButton e MacCheckbox. Per cambiare tema basta scegliere un'altra factory all'avvio.`,
+roles:[["AbstractFactory","dichiara le operazioni che creano i prodotti astratti"],["ConcreteFactory","crea i prodotti di una famiglia"],["AbstractProduct","interfaccia di un tipo di prodotto"],["ConcreteProduct","prodotto di una famiglia precisa"],["Client","usa solo le interfacce astratte"]],
+note:`Factory Method crea un solo prodotto tramite sottoclassi; Abstract Factory crea famiglie intere e spesso è implementata con più factory method. Aggiungere un nuovo tipo di prodotto è costoso: cambia l'interfaccia di tutte le factory.`,
+d:{c:{c:{n:"Client",x:380,y:0},af:{n:"AbstractFactory",k:"i",x:92,y:100,o:["+createA(): ProductA","+createB(): ProductB"]},
+f1:{n:"ConcreteFactory1",x:0,y:240,o:["+createA(): ProductA","+createB(): ProductB"]},f2:{n:"ConcreteFactory2",x:185,y:240,o:["+createA(): ProductA","+createB(): ProductB"]},
+pa:{n:"ProductA",k:"i",x:430,y:100},a1:{n:"ProductA1",x:370,y:240},a2:{n:"ProductA2",x:490,y:240},
+pb:{n:"ProductB",k:"i",x:690,y:100},b1:{n:"ProductB1",x:630,y:240},b2:{n:"ProductB2",x:750,y:240}},
+e:[["c","af","assoc"],["c","pa","assoc"],["c","pb","assoc"],["f1","af","impl"],["f2","af","impl"],["a1","pa","impl"],["a2","pa","impl"],["b1","pb","impl"],["b2","pb","impl"]],
+n:[{t:"ConcreteFactory1 crea ProductA1 e ProductB1\nConcreteFactory2 crea ProductA2 e ProductB2",x:370,y:310}]}},
+
+{id:"builder",n:"Builder",f:"cre",scope:"oggetto",aka:"",
+intent:`Separa la costruzione di un oggetto complesso dalla sua rappresentazione, così che lo stesso processo di costruzione possa creare rappresentazioni diverse.`,
+prob:`Un oggetto è composto da molte parti o ha molti parametri opzionali. Costruttori con dieci parametri (telescoping constructor) sono illeggibili e rigidi, e la logica di assemblaggio finisce sparsa nel client.`,
+sol:`La costruzione passo passo va in un oggetto Builder. Il Director conosce l'ordine dei passi, il ConcreteBuilder sa come realizzarli e alla fine restituisce il prodotto con getResult().`,
+ex:`Convertitore di documenti: il Director legge un file RTF e chiama buildTitle(), buildParagraph() per ogni elemento; HtmlBuilder produce HTML, PdfBuilder produce PDF. In Java: StringBuilder, oppure new Pizza.Builder().size(30).cheese().build().`,
+roles:[["Builder","interfaccia con i passi di costruzione"],["ConcreteBuilder","implementa i passi e assembla il prodotto"],["Director","chiama i passi nell'ordine corretto"],["Product","l'oggetto complesso costruito"]],
+note:`Abstract Factory restituisce il prodotto subito, in una chiamata. Builder lo costruisce un passo alla volta e lo restituisce alla fine. Il prodotto di un Builder è spesso un Composite.`,
+d:{c:{dir:{n:"Director",x:0,y:0,a:["-builder: Builder"],o:["+construct()"]},bld:{n:"Builder",k:"i",x:250,y:0,o:["+buildPartA()","+buildPartB()","+getResult(): Product"]},
+cb:{n:"ConcreteBuilder",x:250,y:160,o:["+buildPartA()","+buildPartB()","+getResult(): Product"]},prod:{n:"Product",x:500,y:187}},
+e:[["dir","bld","aggr"],["cb","bld","impl"],["cb","prod","dep",{l:"«create»"}]],
+n:[{t:"builder.buildPartA();\nbuilder.buildPartB();\np = builder.getResult();",x:0,y:150,to:"dir"}]}},
+
+{id:"factory-method",n:"Factory Method",f:"cre",scope:"classe",aka:"Virtual Constructor",
+intent:`Definisce un'interfaccia per creare un oggetto, ma lascia alle sottoclassi la decisione su quale classe istanziare.`,
+prob:`Un framework sa quando creare un oggetto ma non quale tipo concreto. Un'applicazione per documenti sa che deve creare un Document, ma non se sarà un DrawingDocument o un TextDocument.`,
+sol:`La classe Creator dichiara factoryMethod(), astratto o con un'implementazione di default, che restituisce un Product. Le sottoclassi lo ridefiniscono per restituire il prodotto concreto. Il resto del codice del Creator lavora solo con l'interfaccia Product.`,
+ex:`Logistica: Logistics.planDelivery() chiama createTransport(); RoadLogistics restituisce un Truck, SeaLogistics una Ship. In Java, Collection.iterator() è un factory method.`,
+roles:[["Product","interfaccia degli oggetti creati"],["ConcreteProduct","implementazione concreta"],["Creator","dichiara il factory method e lo usa"],["ConcreteCreator","ridefinisce il factory method"]],
+note:`È un pattern di classe perché si basa sull'ereditarietà. Un Template Method chiama spesso uno o più factory method.`,
+d:{c:{prod:{n:"Product",k:"i",x:0,y:10},cp:{n:"ConcreteProduct",x:0,y:182},cr:{n:"Creator",k:"a",x:260,y:0,o:["*+factoryMethod(): Product","+anOperation()"]},
+cc:{n:"ConcreteCreator",x:260,y:170,o:["+factoryMethod(): Product"]}},
+e:[["cr","prod","assoc",{l:"usa"}],["cc","cr","inh"],["cp","prod","impl"],["cc","cp","dep",{l:"«create»"}]],
+n:[{t:"// in anOperation():\nproduct = factoryMethod();",x:520,y:6,to:"cr"},{t:"return new ConcreteProduct();",x:520,y:178,to:"cc"}]}},
+
+{id:"prototype",n:"Prototype",f:"cre",scope:"oggetto",aka:"",
+intent:`Specifica i tipi di oggetti da creare tramite un'istanza prototipo e crea nuovi oggetti copiando questo prototipo.`,
+prob:`Creare un oggetto da zero è costoso (dati caricati da database, configurazione lunga) oppure il codice non conosce la classe concreta dell'oggetto che vuole duplicare.`,
+sol:`Ogni classe implementa clone(). Il client chiede al prototipo di clonarsi invece di usare new. Si può tenere un registro di prototipi già configurati da cui copiare.`,
+ex:`Editor grafico: la palette contiene un cerchio rosso e un rettangolo blu preconfigurati; trascinarli sulla tela crea una copia con clone(). In Java: interfaccia Cloneable con Object.clone(), oppure un costruttore di copia.`,
+roles:[["Prototype","dichiara clone()"],["ConcretePrototype","implementa la copia di sé stesso"],["Client","crea oggetti chiedendo al prototipo di clonarsi"]],
+note:`Distingui copia superficiale (shallow) e profonda (deep): se l'oggetto contiene riferimenti ad altri oggetti, bisogna decidere se condividerli o copiarli.`,
+d:{c:{cl:{n:"Client",x:0,y:0,a:["-prototype: Prototype"],o:["+operation()"]},pr:{n:"Prototype",k:"i",x:290,y:0,o:["+clone(): Prototype"]},
+p1:{n:"ConcretePrototype1",x:190,y:150,o:["+clone(): Prototype"]},p2:{n:"ConcretePrototype2",x:385,y:150,o:["+clone(): Prototype"]}},
+e:[["cl","pr","assoc"],["p1","pr","impl"],["p2","pr","impl"]],
+n:[{t:"p = prototype.clone();",x:0,y:118,to:"cl"},{t:"return copia di this;",x:200,y:250,to:"p1"}]}},
+
+{id:"singleton",n:"Singleton",f:"cre",scope:"oggetto",aka:"",
+intent:`Garantisce che una classe abbia una sola istanza e fornisce un punto di accesso globale a essa.`,
+prob:`Alcune risorse devono esistere una sola volta: la configurazione, un pool di connessioni, il logger. Una variabile globale non impedisce che qualcuno crei altre istanze.`,
+sol:`Costruttore privato, un attributo statico che contiene l'unica istanza e un metodo statico getInstance() che la crea alla prima richiesta (lazy initialization) e poi restituisce sempre la stessa.`,
+ex:`Logger.getInstance().log("avvio"). In Java: Runtime.getRuntime().`,
+roles:[["Singleton","definisce getInstance() e custodisce l'unica istanza"]],
+note:`In ambiente multithread serve sincronizzazione (double-checked locking, oppure in Java un enum con un solo valore). È spesso criticato perché introduce stato globale e rende difficili i test: in molti casi si preferisce la dependency injection.`,
+d:{c:{s:{n:"Singleton",x:0,y:0,a:["_-instance: Singleton","-data"],o:["-Singleton()","_+getInstance(): Singleton","+operation()"]},cl:{n:"Client",x:52,y:200}},
+e:[["cl","s","dep",{l:"getInstance()"}]],
+n:[{t:"if (instance == null)\n  instance = new Singleton();\nreturn instance;",x:270,y:30,to:"s"}]}},
+
+/* ---------------- STRUTTURALI ---------------- */
+{id:"adapter",n:"Adapter",f:"str",scope:"classe e oggetto",aka:"Wrapper",
+intent:`Converte l'interfaccia di una classe in un'altra interfaccia che il client si aspetta, permettendo la collaborazione fra classi altrimenti incompatibili.`,
+prob:`Hai una classe utile, magari di una libreria esterna, ma la sua interfaccia non corrisponde a quella che il tuo codice usa e non puoi modificarla.`,
+sol:`Un Adapter implementa l'interfaccia Target e contiene un riferimento all'Adaptee: ogni chiamata a request() viene tradotta in specificRequest(). Nella versione di classe, l'Adapter eredita da Adaptee invece di contenerlo (richiede ereditarietà multipla). Il diagramma mostra la versione di oggetto.`,
+ex:`L'app lavora con dati XML ma una libreria di analisi accetta solo JSON: un XmlToJsonAdapter fa da ponte. Il codice Java qui sotto adatta un sensore in gradi Fahrenheit a un'interfaccia in gradi Celsius. Nel mondo reale è l'adattatore per la presa elettrica. In Java: InputStreamReader adatta un InputStream all'interfaccia Reader.`,
+roles:[["Target","interfaccia attesa dal client"],["Adaptee","classe esistente con interfaccia diversa"],["Adapter","traduce le chiamate da Target ad Adaptee"],["Client","lavora solo con Target"]],
+note:`Adapter cambia l'interfaccia di un oggetto esistente. Decorator mantiene la stessa interfaccia e aggiunge comportamento. Facade crea un'interfaccia nuova e più semplice per un intero sottosistema.`,
+d:{c:{cl:{n:"Client",x:0,y:19},t:{n:"Target",k:"i",x:170,y:0,o:["+request()"]},ad:{n:"Adapter",x:170,y:150,a:["-adaptee: Adaptee"],o:["+request()"]},
+ae:{n:"Adaptee",x:400,y:162,o:["+specificRequest()"]}},
+e:[["cl","t","assoc"],["ad","t","impl"],["ad","ae","assoc",{l:"adaptee"}]],
+n:[{t:"adaptee.specificRequest();",x:170,y:272,to:"ad"}]}},
+
+{id:"bridge",n:"Bridge",f:"str",scope:"oggetto",aka:"Handle/Body",
+intent:`Disaccoppia un'astrazione dalla sua implementazione, in modo che le due possano variare indipendentemente.`,
+prob:`Due dimensioni di variazione gestite con l'ereditarietà producono un'esplosione di classi: Forma × Colore dà CerchioRosso, CerchioBlu, QuadratoRosso e così via, cioè n × m classi.`,
+sol:`Si divide la gerarchia in due: l'Abstraction (cosa si fa) e l'Implementor (come lo si fa). L'Abstraction contiene un riferimento all'Implementor e gli delega il lavoro. Le due gerarchie crescono separatamente: n + m classi.`,
+ex:`Telecomandi e dispositivi: RemoteControl e AdvancedRemote formano l'astrazione; TV e Radio implementano Device. JDBC: l'API è l'astrazione, ogni driver di database è un'implementazione.`,
+roles:[["Abstraction","interfaccia di alto livello; contiene il riferimento all'Implementor"],["RefinedAbstraction","estende l'astrazione"],["Implementor","interfaccia delle operazioni primitive"],["ConcreteImplementor","implementazione specifica di piattaforma"]],
+note:`Bridge si progetta in anticipo, per far evolvere due gerarchie in modo indipendente. Adapter si usa a posteriori, per far funzionare insieme classi già esistenti.`,
+d:{c:{ab:{n:"Abstraction",x:0,y:0,a:["-impl: Implementor"],o:["+operation()"]},ra:{n:"RefinedAbstraction",x:0,y:170,o:["+operation()"]},
+im:{n:"Implementor",k:"i",x:362,y:6,o:["+operationImpl()"]},ia:{n:"ConcreteImplementorA",x:250,y:170,o:["+operationImpl()"]},ib:{n:"ConcreteImplementorB",x:445,y:170,o:["+operationImpl()"]}},
+e:[["ab","im","aggr",{l:"impl"}],["ra","ab","inh"],["ia","im","impl"],["ib","im","impl"]],
+n:[{t:"impl.operationImpl();",x:0,y:-62,to:"ab"}]}},
+
+{id:"composite",n:"Composite",f:"str",scope:"oggetto",aka:"",
+intent:`Compone oggetti in strutture ad albero per rappresentare gerarchie parte-tutto e permette di trattare in modo uniforme oggetti singoli e composizioni.`,
+prob:`Il codice deve distinguere continuamente fra elementi semplici e contenitori (file e cartelle), con if e instanceof sparsi ovunque.`,
+sol:`Un'interfaccia comune Component. Leaf implementa l'operazione direttamente; Composite contiene una lista di Component e implementa l'operazione delegandola ricorsivamente ai figli.`,
+ex:`File system: getSize() su un File restituisce la sua dimensione, su una Cartella somma getSize() dei figli. Interfacce grafiche: un Panel contiene Button e altri Panel.`,
+roles:[["Component","interfaccia comune a foglie e contenitori"],["Leaf","elemento senza figli"],["Composite","contiene figli e delega loro le operazioni"],["Client","manipola tutto tramite Component"]],
+note:`Trade-off fra trasparenza e sicurezza: mettere add() e remove() in Component rende tutto uniforme ma obbliga Leaf a gestirli; metterli solo in Composite è più sicuro ma meno uniforme.`,
+d:{c:{cl:{n:"Client",x:0,y:40},cm:{n:"Component",k:"a",x:200,y:0,o:["*+operation()","+add(c: Component)","+remove(c: Component)","+getChild(i): Component"]},
+lf:{n:"Leaf",x:120,y:190,o:["+operation()"]},cp:{n:"Composite",x:290,y:190,a:["-children: List<Component>"],o:["+operation()","+add(c)","+remove(c)"]}},
+e:[["cl","cm","assoc"],["lf","cm","inh"],["cp","cm","inh"],["cp","cm","aggr",{r:"loopR",l:"0..*"}]],
+n:[{t:"for (Component c : children)\n  c.operation();",x:290,y:332,to:"cp"}]}},
+
+{id:"decorator",n:"Decorator",f:"str",scope:"oggetto",aka:"Wrapper",
+intent:`Aggiunge dinamicamente responsabilità a un oggetto. È un'alternativa flessibile alle sottoclassi per estendere le funzionalità.`,
+prob:`Si vogliono combinare funzionalità opzionali (buffer, compressione, cifratura). Con le sottoclassi servirebbe una classe per ogni combinazione possibile.`,
+sol:`Il Decorator implementa la stessa interfaccia del componente e ne contiene uno (wrappee). Ogni chiamata viene inoltrata al wrappee, con comportamento aggiunto prima o dopo. I decorator si possono annidare a piacere.`,
+ex:`Java I/O: new BufferedReader(new InputStreamReader(new FileInputStream("f.txt"))). Caffetteria: new Latte(new Caramello(new Espresso())).getCost() somma i prezzi lungo la catena.`,
+roles:[["Component","interfaccia comune"],["ConcreteComponent","oggetto base da decorare"],["Decorator","mantiene il riferimento al componente e inoltra le chiamate"],["ConcreteDecorator","aggiunge il comportamento extra"]],
+note:`Proxy ha quasi la stessa struttura ma controlla l'accesso e di solito gestisce lui l'oggetto reale. Nel Decorator è il client a comporre la catena, per aggiungere comportamento.`,
+d:{c:{co:{n:"Component",k:"i",x:145,y:0,o:["+operation()"]},cc:{n:"ConcreteComponent",x:0,y:150,o:["+operation()"]},
+de:{n:"Decorator",k:"a",x:240,y:150,a:["-wrappee: Component"],o:["+operation()"]},
+da:{n:"ConcreteDecoratorA",x:150,y:310,o:["+operation()","+extra()"]},db:{n:"ConcreteDecoratorB",x:330,y:310,a:["-addedState"],o:["+operation()"]}},
+e:[["cc","co","impl"],["de","co","impl"],["de","co","aggr",{r:"loopR",l:"wrappee"}],["da","de","inh"],["db","de","inh"]],
+n:[{t:"super.operation();\naddedBehavior();",x:530,y:322,to:"db"}]}},
+
+{id:"facade",n:"Facade",f:"str",scope:"oggetto",aka:"",
+intent:`Fornisce un'interfaccia unificata e semplificata a un insieme di interfacce di un sottosistema.`,
+prob:`Un sottosistema complesso, con molte classi e un ordine di chiamata preciso, costringe il client a conoscere troppi dettagli e lo lega alle classi interne.`,
+sol:`Una classe Facade espone poche operazioni di alto livello e le traduce in chiamate alle classi del sottosistema. Le classi interne restano comunque accessibili a chi ne ha bisogno.`,
+ex:`VideoConverter.convert("film.ogg", "mp4") nasconde codec, buffer e mixer audio. Un compilatore espone compile() e nasconde scanner, parser e generatore di codice.`,
+roles:[["Facade","conosce il sottosistema e delega le richieste"],["Classi del sottosistema","fanno il lavoro vero; ignorano l'esistenza della Facade"],["Client","usa la Facade"]],
+note:`Facade semplifica con un'interfaccia nuova. Adapter traduce verso un'interfaccia già esistente. Mediator coordina oggetti che dialogano attraverso di lui, mentre il sottosistema non sa nulla della Facade.`,
+d:{c:{cl:{n:"Client",x:200,y:0},fa:{n:"Facade",x:195,y:100,o:["+operation()"]},
+sa:{n:"ClassA",x:0,y:265,o:["+doA()"]},sb:{n:"ClassB",x:130,y:265,o:["+doB()"]},sc:{n:"ClassC",x:260,y:265,o:["+doC()"]},sd:{n:"ClassD",x:390,y:265,o:["+doD()"]}},
+e:[["cl","fa","dep"],["fa","sa","assoc"],["fa","sb","assoc"],["fa","sc","assoc"],["sc","sd","assoc"]],
+p:[{x:-16,y:225,w:522,h:120,l:"sottosistema"}]}},
+
+{id:"flyweight",n:"Flyweight",f:"str",scope:"oggetto",aka:"",
+intent:`Usa la condivisione per gestire in modo efficiente un gran numero di oggetti a grana fine.`,
+prob:`Milioni di oggetti simili (caratteri in un editor, alberi in un videogioco, particelle) esauriscono la memoria.`,
+sol:`Si separa lo stato intrinseco, condivisibile e immutabile (forma del glifo, texture), dallo stato estrinseco, che dipende dal contesto (la posizione). Una FlyweightFactory mantiene un pool e restituisce oggetti condivisi; lo stato estrinseco viene passato come parametro alle operazioni.`,
+ex:`Videogioco con un milione di alberi: TreeType (specie, colore, texture) è condiviso da tutti gli alberi della stessa specie, ogni Tree conserva solo x, y e il riferimento al suo TreeType. In Java: Integer.valueOf() riusa le istanze da -128 a 127, e il pool delle String.`,
+roles:[["Flyweight","interfaccia che riceve lo stato estrinseco"],["ConcreteFlyweight","conserva lo stato intrinseco; condiviso"],["UnsharedConcreteFlyweight","flyweight non condiviso, quando serve"],["FlyweightFactory","crea e riusa i flyweight dal pool"],["Client","calcola o conserva lo stato estrinseco"]],
+note:`Si risparmia memoria pagando in complessità e in un po' di CPU per gestire lo stato estrinseco. Vale la pena solo con un numero davvero grande di oggetti.`,
+d:{c:{cl:{n:"Client",x:62,y:0},fac:{n:"FlyweightFactory",x:0,y:110,a:["-pool: Map<key, Flyweight>"],o:["+getFlyweight(key): Flyweight"]},
+fw:{n:"Flyweight",k:"i",x:377,y:20,o:["+operation(extrinsicState)"]},cf:{n:"ConcreteFlyweight",x:260,y:180,a:["-intrinsicState"],o:["+operation(extrinsicState)"]},
+uf:{n:"UnsharedConcreteFlyweight",x:490,y:180,a:["-allState"],o:["+operation(extrinsicState)"]}},
+e:[["cl","fac","assoc"],["cl","fw","assoc"],["fac","fw","aggr",{l:"pool"}],["cf","fw","impl"],["uf","fw","impl"]],
+n:[{t:"if (!pool.containsKey(key))\n  pool.put(key, new ConcreteFlyweight());\nreturn pool.get(key);",x:0,y:292,to:"fac"}]}},
+
+{id:"proxy",n:"Proxy",f:"str",scope:"oggetto",aka:"Surrogate",
+intent:`Fornisce un surrogato o un segnaposto di un altro oggetto per controllarne l'accesso.`,
+prob:`Bisogna intervenire prima o dopo l'accesso a un oggetto (crearlo solo quando serve, verificare i permessi, raggiungerlo in rete) senza cambiare il codice del client.`,
+sol:`Il Proxy implementa la stessa interfaccia del RealSubject, ne tiene un riferimento e inoltra le chiamate aggiungendo il controllo. Varianti principali: virtual proxy (creazione pigra), protection proxy (permessi), remote proxy (oggetto in un altro processo), smart reference (conteggio dei riferimenti, cache).`,
+ex:`Documento con immagini pesanti: ImageProxy mostra un riquadro vuoto e carica il file da disco solo al primo display(). In Java: gli stub di RMI e i proxy di Hibernate per il lazy loading.`,
+roles:[["Subject","interfaccia comune a Proxy e RealSubject"],["RealSubject","l'oggetto vero"],["Proxy","controlla l'accesso e inoltra le richieste"]],
+note:`Stessa struttura del Decorator, scopo diverso: il Proxy controlla l'accesso, il Decorator aggiunge funzionalità.`,
+d:{c:{cl:{n:"Client",x:0,y:20},su:{n:"Subject",k:"i",x:242,y:0,o:["+request()"]},rs:{n:"RealSubject",x:100,y:172,o:["+request()"]},
+px:{n:"Proxy",x:290,y:160,a:["-realSubject: RealSubject"],o:["+request()"]}},
+e:[["cl","su","assoc"],["rs","su","impl"],["px","su","impl"],["px","rs","assoc",{l:"realSubject"}]],
+n:[{t:"// controlli prima e dopo\nrealSubject.request();",x:290,y:282,to:"px"}]}},
+
+/* ---------------- COMPORTAMENTALI ---------------- */
+{id:"chain-of-responsibility",n:"Chain of Responsibility",f:"beh",scope:"oggetto",aka:"",
+intent:`Evita di legare il mittente di una richiesta al suo destinatario, dando a più oggetti la possibilità di gestirla. Gli oggetti sono concatenati e la richiesta passa lungo la catena finché uno la gestisce.`,
+prob:`Il mittente non sa, e non deve sapere, chi gestirà la richiesta; l'insieme dei gestori può cambiare a runtime.`,
+sol:`Ogni Handler ha un riferimento al successivo. handleRequest() gestisce la richiesta se può, altrimenti la inoltra al successor.`,
+ex:`Approvazione spese: il caposquadra approva fino a 500 €, il manager fino a 5.000 €, il direttore oltre. Help contestuale di una GUI: la richiesta risale da pulsante a pannello a finestra. Filtri e middleware HTTP (Servlet Filter).`,
+roles:[["Handler","interfaccia di gestione; riferimento al successore"],["ConcreteHandler","gestisce ciò che può, inoltra il resto"],["Client","invia la richiesta al primo anello"]],
+note:`Non c'è garanzia che la richiesta venga gestita: di solito si mette in fondo alla catena un gestore di default.`,
+d:{c:{cl:{n:"Client",x:0,y:40},h:{n:"Handler",k:"a",x:200,y:0,a:["-successor: Handler"],o:["+handleRequest()","+setNext(h: Handler)"]},
+h1:{n:"ConcreteHandler1",x:120,y:185,o:["+handleRequest()"]},h2:{n:"ConcreteHandler2",x:300,y:185,o:["+handleRequest()"]}},
+e:[["cl","h","assoc"],["h1","h","inh"],["h2","h","inh"],["h","h","assoc",{r:"self",l:"successor"}]],
+n:[{t:"if (posso gestirla) gestisci;\nelse successor.handleRequest();",x:490,y:190,to:"h2"}]}},
+
+{id:"command",n:"Command",f:"beh",scope:"oggetto",aka:"Action, Transaction",
+intent:`Incapsula una richiesta in un oggetto, così da parametrizzare i client con richieste diverse, accodarle o registrarle e supportare l'annullamento.`,
+prob:`Un pulsante o una voce di menu non deve sapere cosa fa concretamente. Inoltre si vogliono undo e redo, code di operazioni, macro.`,
+sol:`Ogni azione diventa un oggetto ConcreteCommand con execute() (e magari undo()) che conosce il Receiver, cioè chi fa il lavoro vero. L'Invoker conserva il comando e lo esegue quando serve, senza conoscere il Receiver.`,
+ex:`Editor di testo: CopyCommand e PasteCommand; una pila dei comandi eseguiti permette l'undo. Telecomando programmabile. In Java: un Runnable passato a un thread pool.`,
+roles:[["Command","interfaccia con execute()"],["ConcreteCommand","lega un Receiver a un'azione"],["Invoker","chiede al comando di eseguire la richiesta"],["Receiver","sa come svolgere l'operazione"],["Client","crea il comando e imposta il Receiver"]],
+note:`Per l'undo il comando deve salvare lo stato necessario a tornare indietro, spesso con un Memento. Una macro è un Composite di comandi.`,
+d:{c:{inv:{n:"Invoker",x:0,y:0,a:["-command: Command"],o:["+executeCommand()"]},cmd:{n:"Command",k:"i",x:255,y:6,o:["+execute()"]},
+cc:{n:"ConcreteCommand",x:230,y:170,a:["-receiver: Receiver","-state"],o:["+execute()"]},rc:{n:"Receiver",x:490,y:190,o:["+action()"]},cl:{n:"Client",x:495,y:20}},
+e:[["inv","cmd","aggr"],["cc","cmd","impl"],["cc","rc","assoc",{l:"receiver"}],["cl","rc","assoc"],["cl","cc","dep",{l:"«create»"}]],
+n:[{t:"receiver.action();",x:230,y:310,to:"cc"}]}},
+
+{id:"interpreter",n:"Interpreter",f:"beh",scope:"classe",aka:"",
+intent:`Dato un linguaggio, definisce una rappresentazione della sua grammatica e un interprete che usa questa rappresentazione per interpretare le frasi del linguaggio.`,
+prob:`Un tipo di problema si ripete spesso ed è esprimibile con un linguaggio semplice (espressioni, regole, query) che conviene valutare direttamente.`,
+sol:`Ogni regola della grammatica diventa una classe. Una frase è un albero sintattico (un Composite): TerminalExpression per i simboli terminali, NonterminalExpression per le regole che contengono altre espressioni. interpret(context) viene chiamato ricorsivamente.`,
+ex:`Espressioni aritmetiche: "3 + x * 2" diventa Add(Number(3), Mul(Variable(x), Number(2))) e il Context contiene il valore di x. Espressioni regolari, regole di un motore di business.`,
+roles:[["AbstractExpression","dichiara interpret()"],["TerminalExpression","simbolo terminale della grammatica"],["NonterminalExpression","regola composta da altre espressioni"],["Context","informazioni globali per l'interprete"],["Client","costruisce l'albero sintattico e avvia interpret()"]],
+note:`Adatto solo a grammatiche semplici: con grammatiche grandi le classi esplodono e conviene un generatore di parser. La struttura è quella del Composite.`,
+d:{c:{cl:{n:"Client",x:0,y:20},ctx:{n:"Context",x:0,y:178},ae:{n:"AbstractExpression",k:"a",x:260,y:0,o:["*+interpret(ctx: Context)"]},
+te:{n:"TerminalExpression",x:140,y:160,o:["+interpret(ctx)"]},nt:{n:"NonterminalExpression",x:330,y:160,a:["-children: AbstractExpression[]"],o:["+interpret(ctx)"]}},
+e:[["cl","ae","assoc"],["cl","ctx","assoc"],["te","ae","inh"],["nt","ae","inh"],["nt","ae","aggr",{r:"loopR",l:"1..*"}]],
+n:[{t:"for (e : children) e.interpret(ctx);",x:330,y:280,to:"nt"}]}},
+
+{id:"iterator",n:"Iterator",f:"beh",scope:"oggetto",aka:"Cursor",
+intent:`Fornisce un modo per accedere in sequenza agli elementi di un aggregato senza esporne la rappresentazione interna.`,
+prob:`Il client vuole scorrere una collezione (lista, albero, grafo) senza sapere com'è fatta dentro, magari in modi diversi o con più cursori contemporaneamente.`,
+sol:`L'Aggregate crea un Iterator con createIterator(). L'Iterator tiene la posizione corrente e offre hasNext() e next(). Ogni collezione ha il suo iteratore concreto.`,
+ex:`In Java il ciclo for (String s : lista) usa Iterable.iterator(). Un albero può offrire un iteratore in profondità e uno in ampiezza.`,
+roles:[["Iterator","interfaccia per scorrere gli elementi"],["ConcreteIterator","tiene traccia della posizione corrente"],["Aggregate","interfaccia che crea l'iteratore"],["ConcreteAggregate","restituisce l'iteratore concreto"]],
+note:`createIterator() è un Factory Method. Un iteratore su un Composite permette di attraversare un albero senza conoscerne la struttura.`,
+d:{c:{ag:{n:"Aggregate",k:"i",x:0,y:0,o:["+createIterator(): Iterator"]},cl:{n:"Client",x:250,y:20},it:{n:"Iterator",k:"i",x:390,y:0,o:["+hasNext(): boolean","+next(): Object"]},
+ca:{n:"ConcreteAggregate",x:0,y:180,o:["+createIterator(): Iterator"]},ci:{n:"ConcreteIterator",x:390,y:160,a:["-position: int"],o:["+hasNext(): boolean","+next(): Object"]}},
+e:[["cl","ag","assoc"],["cl","it","assoc"],["ca","ag","impl"],["ci","it","impl"],["ca","ci","dep",{l:"«create»"}]],
+n:[{t:"return new ConcreteIterator(this);",x:0,y:290,to:"ca"}]}},
+
+{id:"mediator",n:"Mediator",f:"beh",scope:"oggetto",aka:"",
+intent:`Definisce un oggetto che incapsula il modo in cui un insieme di oggetti interagisce, favorendo un accoppiamento debole: gli oggetti non si riferiscono più direttamente l'uno all'altro.`,
+prob:`Molti oggetti che comunicano tutti con tutti creano una rete di dipendenze N × N: è difficile riusarli o modificarli.`,
+sol:`I Colleague conoscono solo il Mediator e gli notificano gli eventi. Il ConcreteMediator contiene la logica di coordinamento e chiama gli altri colleghi.`,
+ex:`Finestra di dialogo: quando si spunta la casella “Sono un'azienda”, il dialogo abilita il campo Partita IVA; i controlli non si conoscono fra loro. La torre di controllo di un aeroporto. Una chat room.`,
+roles:[["Mediator","interfaccia per comunicare con i colleghi"],["ConcreteMediator","coordina i colleghi e li conosce"],["Colleague","conosce solo il proprio mediator"]],
+note:`Il mediator rischia di diventare un oggetto enorme che accentra tutta la logica. Observer distribuisce la comunicazione, Mediator la centralizza; spesso il mediator è implementato proprio come osservatore dei colleghi.`,
+d:{c:{me:{n:"Mediator",k:"i",x:0,y:0,o:["+notify(sender, event)"]},cm:{n:"ConcreteMediator",x:0,y:170,a:["-colleagueA","-colleagueB"],o:["+notify(sender, event)"]},
+co:{n:"Colleague",k:"a",x:355,y:6,a:["-mediator: Mediator"]},ca:{n:"ConcreteColleagueA",x:260,y:180,o:["+doA()"]},cb:{n:"ConcreteColleagueB",x:450,y:180,o:["+doB()"]}},
+e:[["cm","me","impl"],["co","me","assoc",{l:"mediator"}],["ca","co","inh"],["cb","co","inh"],["cm","ca","assoc"],["cm","cb","assoc",{r:"u"}]],
+n:[{t:"if (sender == colleagueA)\n  colleagueB.doB();",x:0,y:322,to:"cm"}]}},
+
+{id:"memento",n:"Memento",f:"beh",scope:"oggetto",aka:"Token",
+intent:`Senza violare l'incapsulamento, cattura ed esternalizza lo stato interno di un oggetto, così che l'oggetto possa essere riportato in seguito a quello stato.`,
+prob:`Per implementare undo o checkpoint bisogna salvare lo stato di un oggetto, ma rendere pubblici i suoi campi romperebbe l'incapsulamento.`,
+sol:`L'Originator crea un Memento con una copia del proprio stato e sa come ripristinarlo. Il Caretaker conserva i memento, per esempio in una pila, senza mai leggerne il contenuto.`,
+ex:`Editor: prima di ogni modifica si salva un memento con testo e posizione del cursore; Ctrl+Z ripristina l'ultimo. I salvataggi di un videogioco. Il rollback di una transazione.`,
+roles:[["Originator","crea il memento e lo usa per ripristinarsi"],["Memento","contiene lo stato salvato"],["Caretaker","custodisce i memento senza esaminarli"]],
+note:`Si usa spesso insieme a Command per l'undo. Se lo stato è grande, salvare molti memento costa memoria.`,
+d:{c:{or:{n:"Originator",x:0,y:0,a:["-state"],o:["+save(): Memento","+restore(m: Memento)"]},mm:{n:"Memento",x:255,y:8,a:["-state"],o:["+getState()"]},
+ca:{n:"Caretaker",x:460,y:8,a:["-history: Memento[]"],o:["+undo()"]}},
+e:[["or","mm","dep",{l:"«create»"}],["ca","mm","aggr",{l:"0..*"}]],
+n:[{t:"return new Memento(state);",x:0,y:140,to:"or"},{t:"conserva i memento\nsenza leggerli",x:460,y:140,to:"ca"}]}},
+
+{id:"observer",n:"Observer",f:"beh",scope:"oggetto",aka:"Dependents, Publish-Subscribe",
+intent:`Definisce una dipendenza uno-a-molti fra oggetti: quando un oggetto cambia stato, tutti quelli che dipendono da lui vengono notificati e aggiornati automaticamente.`,
+prob:`Più oggetti devono reagire ai cambiamenti di un altro, ma il soggetto non deve conoscere le loro classi concrete.`,
+sol:`Il Subject mantiene una lista di Observer con attach() e detach(). Quando lo stato cambia chiama notify(), che invoca update() su ogni osservatore. Gli osservatori leggono il nuovo stato dal soggetto (modello pull) oppure lo ricevono come parametro (modello push).`,
+ex:`Foglio di calcolo: modificando una cella si aggiornano il grafico e la tabella. I listener delle GUI (addActionListener). Il Model in MVC che notifica le View. L'iscrizione a una newsletter.`,
+roles:[["Subject","conosce i propri osservatori; offre attach e detach"],["ConcreteSubject","contiene lo stato e notifica i cambiamenti"],["Observer","interfaccia con update()"],["ConcreteObserver","si aggiorna leggendo lo stato del soggetto"]],
+note:`L'ordine delle notifiche non è garantito e gli aggiornamenti possono propagarsi a cascata. Ricorda di chiamare detach(), altrimenti gli osservatori non vengono mai liberati (memory leak).`,
+d:{c:{su:{n:"Subject",k:"i",x:0,y:0,o:["+attach(o: Observer)","+detach(o: Observer)","+notify()"]},cs:{n:"ConcreteSubject",x:0,y:200,a:["-state"],o:["+getState()","+setState(s)"]},
+ob:{n:"Observer",k:"i",x:347,y:15,o:["+update()"]},co:{n:"ConcreteObserver",x:300,y:205,a:["-subject: ConcreteSubject"],o:["+update()"]}},
+e:[["su","ob","aggr",{l:"observers 0..*"}],["cs","su","impl"],["co","ob","impl"],["co","cs","assoc",{l:"subject"}]],
+n:[{t:"for (Observer o : observers)\n  o.update();",x:200,y:108,to:"su"}]}},
+
+{id:"state",n:"State",f:"beh",scope:"oggetto",aka:"Objects for States",
+intent:`Permette a un oggetto di cambiare comportamento quando cambia il suo stato interno: l'oggetto sembrerà aver cambiato classe.`,
+prob:`Un oggetto si comporta in modo diverso a seconda dello stato e il codice si riempie di switch(state) ripetuti in ogni metodo.`,
+sol:`Ogni stato diventa una classe che implementa l'interfaccia State. Il Context delega a state.handle(this); gli stati concreti possono cambiare lo stato del Context, realizzando le transizioni.`,
+ex:`Connessione TCP: TCPEstablished, TCPListen e TCPClosed reagiscono in modo diverso a open() e close(). Distributore automatico: InAttesa, MoneteInserite, Erogazione.`,
+roles:[["Context","interfaccia verso il client; tiene lo stato corrente"],["State","interfaccia del comportamento legato a uno stato"],["ConcreteState","comportamento di uno stato preciso e transizioni"]],
+note:`State e Strategy hanno lo stesso diagramma. In Strategy è il client a scegliere l'algoritmo e le strategie non si conoscono; in State le transizioni avvengono dall'interno e gli stati si conoscono fra loro.`,
+d:{c:{ctx:{n:"Context",x:0,y:0,a:["-state: State"],o:["+request()","+setState(s: State)"]},st:{n:"State",k:"i",x:287,y:6,o:["+handle(ctx: Context)"]},
+sa:{n:"ConcreteStateA",x:220,y:170,o:["+handle(ctx)"]},sb:{n:"ConcreteStateB",x:400,y:170,o:["+handle(ctx)"]}},
+e:[["ctx","st","aggr",{l:"state"}],["sa","st","impl"],["sb","st","impl"],["sa","sb","dep",{l:"transizione"}]],
+n:[{t:"state.handle(this);",x:0,y:150,to:"ctx"}]}},
+
+{id:"strategy",n:"Strategy",f:"beh",scope:"oggetto",aka:"Policy",
+intent:`Definisce una famiglia di algoritmi, li incapsula e li rende intercambiabili: l'algoritmo varia indipendentemente dai client che lo usano.`,
+prob:`Una classe contiene più varianti dello stesso algoritmo in un grande if/else e se ne vogliono aggiungere altre senza modificarla.`,
+sol:`Ogni algoritmo va in una classe che implementa l'interfaccia Strategy. Il Context mantiene un riferimento alla strategia e le delega il lavoro; la strategia si può cambiare a runtime.`,
+ex:`Navigatore: calcolo del percorso in auto, a piedi o con i mezzi. Metodi di pagamento in un e-commerce. In Java: il Comparator passato a Collections.sort().`,
+roles:[["Strategy","interfaccia comune degli algoritmi"],["ConcreteStrategy","implementa un algoritmo"],["Context","è configurato con una strategia e la usa"]],
+note:`Template Method varia alcuni passi di un algoritmo con l'ereditarietà; Strategy sostituisce l'intero algoritmo con la composizione. Per la differenza con State vedi la scheda State.`,
+d:{c:{ctx:{n:"Context",x:0,y:0,a:["-strategy: Strategy"],o:["+setStrategy(s: Strategy)","+doWork()"]},st:{n:"Strategy",k:"i",x:325,y:12,o:["+execute(data)"]},
+sa:{n:"ConcreteStrategyA",x:225,y:170,o:["+execute(data)"]},sb:{n:"ConcreteStrategyB",x:400,y:170,o:["+execute(data)"]}},
+e:[["ctx","st","aggr",{l:"strategy"}],["sa","st","impl"],["sb","st","impl"]],
+n:[{t:"strategy.execute(data);",x:0,y:150,to:"ctx"}]}},
+
+{id:"template-method",n:"Template Method",f:"beh",scope:"classe",aka:"",
+intent:`Definisce lo scheletro di un algoritmo in un'operazione, rinviando alcuni passi alle sottoclassi, che possono ridefinirli senza cambiare la struttura dell'algoritmo.`,
+prob:`Più classi eseguono lo stesso procedimento con piccole differenze in alcuni passi, e il codice comune è duplicato.`,
+sol:`La classe astratta implementa templateMethod(), spesso final, che chiama i passi nell'ordine giusto. I passi variabili sono metodi astratti (primitive operations) oppure hook con un'implementazione vuota di default che le sottoclassi possono ridefinire.`,
+ex:`Bevande calde: prepara() fa bollire l'acqua, infonde, versa e aggiunge i condimenti; Tè e Caffè ridefiniscono solo infusione e condimenti. In Java: HttpServlet.service() chiama doGet() o doPost().`,
+roles:[["AbstractClass","definisce il template method e i passi astratti"],["ConcreteClass","implementa i passi variabili"]],
+note:`Principio di Hollywood: “non chiamarci, ti chiameremo noi”. È la classe padre a chiamare i metodi delle figlie, non il contrario.`,
+d:{c:{ac:{n:"AbstractClass",k:"a",x:90,y:0,o:["+templateMethod() {final}","*#primitiveOp1()","*#primitiveOp2()","#hook()"]},
+ca:{n:"ConcreteClassA",x:0,y:190,o:["#primitiveOp1()","#primitiveOp2()"]},cb:{n:"ConcreteClassB",x:240,y:190,o:["#primitiveOp1()","#primitiveOp2()","#hook()"]}},
+e:[["ca","ac","inh"],["cb","ac","inh"]],
+n:[{t:"primitiveOp1();\nprimitiveOp2();\nhook();",x:370,y:14,to:"ac"}]}},
+
+{id:"visitor",n:"Visitor",f:"beh",scope:"oggetto",aka:"",
+intent:`Rappresenta un'operazione da eseguire sugli elementi di una struttura di oggetti. Permette di definire nuove operazioni senza modificare le classi degli elementi.`,
+prob:`Su una struttura stabile, come l'albero sintattico di un compilatore, si vogliono aggiungere molte operazioni diverse (controllo dei tipi, generazione di codice, stampa) senza riempire le classi dei nodi.`,
+sol:`Ogni operazione diventa un ConcreteVisitor con un metodo visit per ogni tipo di elemento. Ogni elemento implementa accept(v) chiamando v.visitX(this). Questo double dispatch sceglie il metodo giusto in base sia al tipo dell'elemento sia al tipo del visitor.`,
+ex:`Compilatore: i nodi AssignmentNode e VariableNode vengono visitati da TypeCheckingVisitor e da CodeGeneratingVisitor. Esportare forme geometriche in XML o JSON senza toccare le classi delle forme.`,
+roles:[["Visitor","dichiara un visit per ogni tipo di elemento"],["ConcreteVisitor","implementa una specifica operazione"],["Element","dichiara accept(v)"],["ConcreteElement","implementa accept chiamando il visit giusto"],["ObjectStructure","contiene gli elementi e permette di visitarli"]],
+note:`Aggiungere una nuova operazione è facile (un nuovo visitor). Aggiungere un nuovo tipo di elemento è costoso: va modificato ogni visitor. Conviene quando la gerarchia degli elementi è stabile.`,
+d:{c:{vi:{n:"Visitor",k:"i",x:0,y:0,o:["+visitA(e: ElementA)","+visitB(e: ElementB)"]},cv:{n:"ConcreteVisitor",x:0,y:170,o:["+visitA(e: ElementA)","+visitB(e: ElementB)"]},
+el:{n:"Element",k:"i",x:350,y:7,o:["+accept(v: Visitor)"]},ea:{n:"ElementA",x:260,y:170,o:["+accept(v: Visitor)","+operationA()"]},
+eb:{n:"ElementB",x:440,y:170,o:["+accept(v: Visitor)","+operationB()"]},os:{n:"ObjectStructure",x:590,y:13,a:["-elements: Element[]"]}},
+e:[["cv","vi","impl"],["ea","el","impl"],["eb","el","impl"],["el","vi","dep"],["os","el","aggr",{l:"0..*"}]],
+n:[{t:"v.visitA(this);  // double dispatch",x:260,y:296,to:"ea"}]}}
+];
+
+/* ---------- renderer UML ---------- */
+const NS="http://www.w3.org/2000/svg", CH=7.15, CHB=7.75, LH=15, PAD=12;
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const strip=s=>s.replace(/^[_*]+/,"");
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e}
+function size(c){
+  c.st=c.k==="i"?"«interface»":c.k==="a"?"«abstract»":null;
+  const L=[...(c.a||[]),...(c.o||[])].map(s=>strip(s).length*CH);L.push(c.n.length*CHB);
+  c.w=Math.max(100,Math.ceil(Math.max(...L)+2*PAD));
+  c.hh=8+(c.st?13:0)+16+6;let h=c.hh;
+  if(c.a&&c.a.length)h+=8+LH*c.a.length;
+  if(c.o&&c.o.length)h+=8+LH*c.o.length;
+  c.h=h;
+}
+function noteSize(n){n.lines=n.t.split("\n");n.w=Math.ceil(Math.max(...n.lines.map(l=>l.length))*6.9+30);n.h=12+LH*n.lines.length}
+const ctr=r=>[r.x+r.w/2,r.y+r.h/2];
+function clip(r,to){const[cx,cy]=ctr(r),dx=to[0]-cx,dy=to[1]-cy;const sx=dx?(r.w/2)/Math.abs(dx):Infinity,sy=dy?(r.h/2)/Math.abs(dy):Infinity,t=Math.min(sx,sy);return[cx+dx*t,cy+dy*t]}
+function route(a,b,o,type){
+  const r=o.r||((type==="inh"||type==="impl")?"v":"s");
+  if(r==="s"){return[clip(a,ctr(b)),clip(b,ctr(a))]}
+  if(r==="v"){const ax=a.x+a.w*(o.fx??.5),bx=b.x+b.w*(o.tx??.5);let ay,by;if(a.y>=b.y+b.h){ay=a.y;by=b.y+b.h}else{ay=a.y+a.h;by=b.y}const my=(ay+by)/2;return[[ax,ay],[ax,my],[bx,my],[bx,by]]}
+  if(r==="loopR"){const X=Math.max(a.x+a.w,b.x+b.w)+30,ay=a.y+a.h/2,by=b.y+b.h/2;return[[a.x+a.w,ay],[X,ay],[X,by],[b.x+b.w,by]]}
+  if(r==="u"){const Y=Math.max(a.y+a.h,b.y+b.h)+28,ax=a.x+a.w*.5,bx=b.x+b.w*.5;return[[ax,a.y+a.h],[ax,Y],[bx,Y],[bx,b.y+b.h]]}
+  if(r==="self"){const x=a.x+a.w,y1=a.y+a.h*.3,y2=a.y+a.h*.7;return[[x,y1],[x+36,y1],[x+36,y2],[x,y2]]}
+}
+function drawClass(g,c){
+  const G=el("g",{},g);
+  el("rect",{x:c.x,y:c.y,width:c.w,height:c.h,class:"bx"},G);
+  el("rect",{x:c.x,y:c.y,width:c.w,height:c.hh,class:"hd"},G);
+  el("rect",{x:c.x,y:c.y,width:c.w,height:c.h,class:"ol"},G);
+  const cx=c.x+c.w/2;let y=c.y+8;
+  if(c.st){el("text",{x:cx,y:y+9,"text-anchor":"middle",class:"stx"},G,c.st);y+=13}
+  const nm=el("text",{x:cx,y:y+12,"text-anchor":"middle",class:"nm"},G,c.n);if(c.k==="a")nm.setAttribute("font-style","italic");
+  y=c.y+c.hh;
+  for(const sec of [c.a,c.o]){
+    if(!sec||!sec.length)continue;
+    el("line",{x1:c.x,x2:c.x+c.w,y1:y,y2:y,class:"dv"},G);
+    sec.forEach((s,i)=>{const t=el("text",{x:c.x+PAD-2,y:y+6+LH*i+11},G,strip(s));
+      if(s.includes("_")&&s.startsWith("_"))t.setAttribute("text-decoration","underline");
+      if(s.startsWith("*"))t.setAttribute("font-style","italic");});
+    y+=8+LH*sec.length;
+  }
+}
+function render(p){
+  const d=p.d,C=d.c;for(const k in C)size(C[k]);(d.n||[]).forEach(noteSize);
+  const svg=el("svg",{class:"uml",role:"img","aria-label":"Diagramma delle classi UML di "+p.n});
+  const gP=el("g",{},svg),gE=el("g",{},svg),gN=el("g",{},svg),gC=el("g",{},svg),gL=el("g",{},svg);
+  const pts=[];
+  for(const k in C){const c=C[k];pts.push([c.x,c.y],[c.x+c.w,c.y+c.h])}
+  (d.p||[]).forEach(pk=>{el("rect",{x:pk.x,y:pk.y,width:pk.w,height:pk.h,class:"pk"},gP);
+    const tw=pk.l.length*7+20;el("rect",{x:pk.x,y:pk.y-20,width:tw,height:20,class:"pkt"},gP);
+    el("text",{x:pk.x+10,y:pk.y-6,class:"stx"},gP,pk.l);pts.push([pk.x,pk.y-20],[pk.x+pk.w,pk.y+pk.h])});
+  d.e.forEach(([f,t,type,o={}])=>{
+    const a=C[f],b=C[t],P=route(a,b,o,type);P.forEach(q=>pts.push(q));
+    const path=el("path",{d:"M"+P.map(q=>q[0].toFixed(1)+","+q[1].toFixed(1)).join(" L"),class:"e"+((type==="impl"||type==="dep")?" dash":"")},gE);
+    if(type==="inh"||type==="impl")path.setAttribute("marker-end","url(#m-tri)");
+    if(type==="assoc"||type==="dep")path.setAttribute("marker-end","url(#m-arr)");
+    if(type==="aggr")path.setAttribute("marker-start","url(#m-dia)");
+    if(type==="comp")path.setAttribute("marker-start","url(#m-dif)");
+    if(o.l){let m;if(P.length===2)m=[(P[0][0]+P[1][0])/2,(P[0][1]+P[1][1])/2];else m=[(P[1][0]+P[2][0])/2,(P[1][1]+P[2][1])/2];
+      const self=o.r==="self"||(P.length>2&&Math.abs(P[1][0]-P[2][0])<2),horiz=Math.abs(P[1][1]-P[0][1])<Math.abs(P[1][0]-P[0][0])||P.length>2&&Math.abs(P[1][1]-P[2][1])<2;
+      const x=self?m[0]+6:m[0],y=self?m[1]+4:(P.length===2&&!horiz?m[1]+4:m[1]-6);
+      const tx=el("text",{x:P.length===2&&!horiz?x+8:x,y,"text-anchor":self||(P.length===2&&!horiz)?"start":"middle",class:"el"},gL,o.l);
+      pts.push([x-o.l.length*3.5,y-12],[x+o.l.length*7+10,y+4]);}
+  });
+  (d.n||[]).forEach(n=>{
+    const{x,y,w,h}=n;
+    if(n.to){const c=C[n.to],A=clip(n,ctr(c)),B=clip(c,ctr(n));el("line",{x1:A[0],y1:A[1],x2:B[0],y2:B[1],class:"nl"},gN)}
+    el("path",{d:`M${x},${y} H${x+w-10} L${x+w},${y+10} V${y+h} H${x} Z`,class:"nt"},gN);
+    el("path",{d:`M${x+w-10},${y} V${y+10} H${x+w}`,class:"nt"},gN);
+    n.lines.forEach((l,i)=>el("text",{x:x+10,y:y+8+LH*i+11,class:"nt-t","xml:space":"preserve"},gN,l));
+    pts.push([x,y],[x+w,y+h]);
+  });
+  for(const k in C)drawClass(gC,C[k]);
+  const xs=pts.map(q=>q[0]),ys=pts.map(q=>q[1]);
+  const x0=Math.min(...xs)-14,y0=Math.min(...ys)-14,W=Math.max(...xs)-x0+14,H=Math.max(...ys)-y0+14;
+  svg.setAttribute("viewBox",`${x0.toFixed(0)} ${y0.toFixed(0)} ${W.toFixed(0)} ${H.toFixed(0)}`);
+  svg.style.width="100%";svg.style.maxWidth=Math.round(W)+"px";svg.style.minWidth=Math.round(W*.7)+"px";
+  return svg;
+}
+
+/* ---------- legenda ---------- */
+const LEG=[["inh","Generalizzazione (eredita da)"],["impl","Realizzazione (implementa)"],["assoc","Associazione (conosce / usa)"],["aggr","Aggregazione (contiene)"],["comp","Composizione (possiede)"],["dep","Dipendenza (crea / dipende da)"]];
+const lg=document.getElementById("legend");
+LEG.forEach(([t,l])=>{const row=document.createElement("div");row.className="row";
+  const s=el("svg",{class:"uml",width:76,height:20,viewBox:"0 0 76 20"});
+  const p=el("path",{d:(t==="aggr"||t==="comp")?"M4,10 L72,10":"M4,10 L70,10",class:"e"+((t==="impl"||t==="dep")?" dash":"")},s);
+  if(t==="inh"||t==="impl")p.setAttribute("marker-end","url(#m-tri)");
+  if(t==="assoc"||t==="dep")p.setAttribute("marker-end","url(#m-arr)");
+  if(t==="aggr")p.setAttribute("marker-start","url(#m-dia)");
+  if(t==="comp")p.setAttribute("marker-start","url(#m-dif)");
+  row.appendChild(s);const sp=document.createElement("span");sp.textContent=l;row.appendChild(sp);lg.appendChild(row)});
+
+/* ---------- codice Java ---------- */
+const KW=new Set("abstract class interface enum extends implements public private protected static final void new return if else for while this super import throw throws true false null int long double boolean char synchronized var".split(" "));
+const TOK=/(\/\/[^\n]*|\/\*[\s\S]*?\*\/)|("(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)')|(@\w+)|\b(\d[\d_]*(?:\.\d+)?)\b|\b([A-Za-z_]\w*)\b/g;
+function hl(src){let out="",last=0,m;TOK.lastIndex=0;
+  while((m=TOK.exec(src))){out+=esc(src.slice(last,m.index));last=TOK.lastIndex;const t=esc(m[0]);
+    if(m[1])out+=`<span class="tk-c">${t}</span>`;else if(m[2])out+=`<span class="tk-s">${t}</span>`;
+    else if(m[3])out+=`<span class="tk-a">${t}</span>`;else if(m[4])out+=`<span class="tk-n">${t}</span>`;
+    else if(KW.has(m[5]))out+=`<span class="tk-k">${t}</span>`;else if(/^[A-Z]/.test(m[5]))out+=`<span class="tk-t">${t}</span>`;else out+=t;}
+  return out+esc(src.slice(last));}
+function codeBlock(id,c){
+  const d=document.createElement("details");d.className="code";d.id="code-"+id;
+  const lines=c.code.split("\n").length;
+  d.innerHTML=`<summary>Codice Java <span class="ln">Main.java · ${lines} righe</span></summary>
+    <div class="code-body"><div class="code-wrap"><pre><code>${hl(c.code)}</code></pre><button class="copy" type="button">Copia</button></div>
+    <div class="lbl">Output</div><pre class="out"><code>${esc(c.out)}</code></pre></div>`;
+  const b=d.querySelector(".copy"),pre=d.querySelector("pre code");
+  b.addEventListener("click",()=>{
+    const ok=()=>{b.textContent="Copiato";setTimeout(()=>b.textContent="Copia",1500)};
+    const fallback=()=>{const r=document.createRange();r.selectNodeContents(pre);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selezionato: Ctrl+C"};
+    try{navigator.clipboard.writeText(c.code).then(ok,fallback)}catch(e){fallback()}});
+  return d;
+}
+
+/* ---------- indice e schede ---------- */
+const idx=document.getElementById("idx"),host=document.getElementById("patterns");
+let num=0;
+["cre","str","beh"].forEach(f=>{
+  const list=P.filter(p=>p.f===f);
+  const col=document.createElement("div");col.className="fam-"+f;
+  col.innerHTML=`<h4>${FAMS[f].name}</h4><ol>${list.map((p,i)=>`<li><a href="#${p.id}"><span class="no">${String(num+i+1).padStart(2,"0")}</span><span>${esc(p.n)}</span></a></li>`).join("")}</ol>`;
+  idx.appendChild(col);
+  const grp=document.createElement("div");grp.className="fam fam-"+f;grp.dataset.fam=f;
+  grp.innerHTML=`<div class="famhead"><h2>${FAMS[f].name}</h2><p>${FAMS[f].desc}</p></div>`;
+  list.forEach(p=>{num++;
+    const s=document.createElement("section");s.className="pat fam-"+f;s.id=p.id;
+    s.innerHTML=`<div class="pat-head">
+      <div class="meta"><span class="pill">${FAMS[f].one}</span><span>ambito: ${p.scope}</span><span>${String(num).padStart(2,"0")} / 23</span></div>
+      <h2>${esc(p.n)}</h2>${p.aka?`<p class="aka">Noto anche come: ${esc(p.aka)}</p>`:""}
+      <p class="intent">${esc(p.intent)}</p></div>
+      <div class="diagram"></div>
+      <button class="reveal" type="button" id="rv-${p.id}">Mostra spiegazione</button>
+      <div class="expl">
+        <div class="blk"><h3>Problema</h3><p>${esc(p.prob)}</p></div>
+        <div class="blk"><h3>Soluzione</h3><p>${esc(p.sol)}</p></div>
+        <div class="blk"><h3>Esempio concreto</h3><p>${esc(p.ex)}</p></div>
+        <div class="blk"><h3>Partecipanti</h3><dl class="roles">${p.roles.map(([a,b])=>`<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join("")}</dl></div>
+        <div class="blk warn"><h3>Da ricordare</h3><p>${esc(p.note)}</p></div>
+      </div>`;
+    s.querySelector(".diagram").appendChild(render(p));
+    if(CODE[p.id])s.appendChild(codeBlock(p.id,CODE[p.id]));
+    s.querySelector(".reveal").addEventListener("click",e=>{const o=s.classList.toggle("open");e.target.textContent=o?"Nascondi spiegazione":"Mostra spiegazione"});
+    grp.appendChild(s);
+  });
+  host.appendChild(grp);
+});
+
+/* ---------- filtri e ripasso ---------- */
+const chips=[...document.querySelectorAll("[data-f]")];
+function setFilter(f){chips.forEach(c=>c.setAttribute("aria-pressed",String(c.dataset.f===f)));
+  document.querySelectorAll(".fam[data-fam]").forEach(g=>g.hidden=!(f==="all"||g.dataset.fam===f));
+  try{localStorage.setItem("gof-f",f)}catch(e){}}
+chips.forEach(c=>c.addEventListener("click",()=>setFilter(c.dataset.f)));
+idx.addEventListener("click",e=>{const a=e.target.closest("a");if(!a)return;const t=document.querySelector(a.getAttribute("href"));if(t&&t.closest(".fam").hidden)setFilter("all")});
+const q=document.getElementById("quiz");
+function setQuiz(on){document.body.classList.toggle("quiz",on);q.setAttribute("aria-pressed",String(on));
+  if(!on)document.querySelectorAll(".pat.open").forEach(s=>{s.classList.remove("open");s.querySelector(".reveal").textContent="Mostra spiegazione"});
+  try{localStorage.setItem("gof-q",on?"1":"0")}catch(e){}}
+q.addEventListener("click",()=>setQuiz(!document.body.classList.contains("quiz")));
+const ac=document.getElementById("allcode");
+ac.addEventListener("click",()=>{const on=ac.getAttribute("aria-pressed")!=="true";
+  document.querySelectorAll("details.code").forEach(d=>d.open=on);
+  ac.setAttribute("aria-pressed",String(on));ac.textContent=on?"Chiudi tutto il codice":"Apri tutto il codice"});
+try{const f=localStorage.getItem("gof-f");if(f)setFilter(f);if(localStorage.getItem("gof-q")==="1")setQuiz(true)}catch(e){}
+</script>
+
+</body></html>
