@@ -38,7 +38,7 @@ const CATEGORIE = [
       {
         periodo: "Ottobre 2026 — oggi",
         titolo: "Junior Consultant · AYES Management & Technology Consulting",
-        sottotitolo: "Progetto presso Italdesign · ambito informatico e controlli",
+        sottotitolo: "Programmatore e operatore specialista",
         testo: "Percorso di apprendistato come programmatore e operatore specialista, con affiancamento a un Senior Engineer.",
         tag: [
           "Analisi e sviluppo software",
