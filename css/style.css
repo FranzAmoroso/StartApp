@@ -104,14 +104,14 @@ button { font: inherit; color: inherit; }
 /* ===== Pannelli ===== */
 .panels {
   max-width: 1360px; margin: 0 auto; padding: 40px 64px 60px;
-  display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 24px; align-items: start;
+  display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 24px; align-items: stretch;
 }
 .glass {
   background: var(--glass); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius);
   backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
   box-shadow: 0 30px 80px rgba(0,0,0,0.35);
 }
-.side { padding: 26px; display: flex; flex-direction: column; gap: 20px; position: sticky; top: 24px; }
+.side { padding: 26px; display: flex; flex-direction: column; gap: 20px; }
 .profile { display: flex; align-items: center; gap: 14px; }
 #side-foto { width: 56px; height: 56px; border-color: transparent; }
 .profile-name { font-family: var(--display); font-weight: 600; font-size: 18px; color: var(--ink); }
@@ -135,7 +135,19 @@ button { font: inherit; color: inherit; }
 .langs span { font-family: var(--mono); font-size: 12px; padding: 6px 10px; border-radius: 8px; background: rgba(255,255,255,0.05); color: var(--soft); }
 .back { display: none; }
 
-.detail { min-height: 680px; padding: 34px 38px; display: flex; flex-direction: column; gap: 24px; }
+/* Il pannello destro è alto quanto quello sinistro: il contenuto in più scorre dentro.
+   Arrivati in fondo, la rotella continua a far scorrere la pagina (scroll chaining). */
+.detail {
+  height: 0; min-height: 100%;
+  overflow-y: auto; overscroll-behavior: auto;
+  padding: 34px 38px; display: flex; flex-direction: column; gap: 24px;
+  scrollbar-width: thin; scrollbar-color: rgba(233,223,192,0.35) transparent;
+}
+.detail::-webkit-scrollbar { width: 8px; }
+.detail::-webkit-scrollbar-thumb { background: rgba(233,223,192,0.3); border-radius: 8px; }
+.detail-inner { display: flex; flex-direction: column; gap: 24px; }
+.detail.viewer { overflow: hidden; }
+.detail.viewer .detail-inner { flex: 1; min-height: 0; }
 .detail h2 { margin: 8px 0 0; font-family: var(--display); font-size: clamp(22px, 2.4vw, 34px); color: var(--ink); }
 .detail .intro { margin: 8px 0 0; color: #A9B5CE; }
 .fade-in { animation: fade .25s ease-out; }
@@ -199,7 +211,7 @@ button { font: inherit; color: inherit; }
 .res-card .btn { align-self: flex-start; border-color: rgba(233,223,192,0.4); color: var(--moon); }
 .viewer-head { display: flex; align-items: center; gap: 14px; }
 .viewer-head > div { flex: 1; min-width: 0; }
-.viewer-frame { width: 100%; height: 72vh; min-height: 480px; border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; background: #fff; }
+.viewer-frame { width: 100%; flex: 1; min-height: 320px; border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; background: #fff; }
 .icon-btn {
   width: 44px; height: 44px; flex-shrink: 0; border-radius: 12px; border: 1px solid rgba(255,255,255,0.18);
   background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--ink);
@@ -245,13 +257,13 @@ dialog#lightbox::backdrop { background: rgba(3,6,16,0.8); backdrop-filter: blur(
   .hills { height: 18vh; }
 
   .panels { padding: 16px; display: block; }
-  .side { position: static; padding: 20px; }
+  .side { padding: 20px; }
   .detail { display: none; }
   .course-list { columns: 1; }
 
   /* categoria scelta: elenco → barra sottile a sinistra */
   .panels.has-sel { display: grid; grid-template-columns: 60px minmax(0, 1fr); gap: 10px; }
-  .panels.has-sel .side { padding: 8px 0; align-items: center; gap: 8px; border-radius: 18px; position: sticky; top: 12px; }
+  .panels.has-sel .side { padding: 8px 0; align-items: center; gap: 8px; border-radius: 18px; align-self: start; }
   .panels.has-sel .profile,
   .panels.has-sel .bio,
   .panels.has-sel .label-esplora,
@@ -261,7 +273,7 @@ dialog#lightbox::backdrop { background: rgba(3,6,16,0.8); backdrop-filter: blur(
   .panels.has-sel .cat-nav { align-items: center; }
   .panels.has-sel .cat-btn { width: 44px; min-height: 44px; padding: 0; justify-content: center; }
   .panels.has-sel .back { display: flex; width: 44px; height: 44px; align-items: center; justify-content: center; border: 0; background: transparent; color: var(--soft); cursor: pointer; border-bottom: 1px solid var(--line); border-radius: 12px; }
-  .panels.has-sel .detail { display: flex; min-height: 70vh; padding: 18px 16px; gap: 16px; }
+  .panels.has-sel .detail { display: flex; height: calc(100svh - 32px); min-height: 0; padding: 18px 16px; gap: 16px; }
 
   .detail h2 { font-size: 21px; }
   .tl-item { padding: 0 0 26px 20px; }
@@ -274,10 +286,22 @@ dialog#lightbox::backdrop { background: rgba(3,6,16,0.8); backdrop-filter: blur(
   .mg { font-size: 10px; }
   .community a { width: 48px; height: 48px; }
   .viewport { height: 130px; }
-  .viewer-frame { height: 70vh; min-height: 400px; }
   .contact { flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px; padding: 8px 14px; }
   .contact .v { text-align: left; font-size: 13px; }
   .footer { padding: 20px 16px 80px; text-align: center; }
+}
+
+/* ===== Schermi grandi: nome centrato su una riga ===== */
+@media (min-width: 1500px) {
+  .hero { align-items: center; text-align: center; padding-top: 20vh; gap: 30px; }
+  .hero h1 { font-size: clamp(96px, 6.6vw, 140px); white-space: nowrap; }
+  .hero h1 .nl { display: none; }
+  #hero-foto { width: 110px; height: 110px; }
+  .photo-btn { align-self: center; }
+  .profile .photo-btn { align-self: auto; }
+  .sottotitolo { max-width: 640px; }
+  .hero-actions { justify-content: center; }
+  .scroll-hint { align-self: center; margin-top: 40px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

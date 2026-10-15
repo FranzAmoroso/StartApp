@@ -30,7 +30,7 @@
     $("#hero-foto").src = PROFILO.foto;
     $("#side-foto").src = PROFILO.foto;
     $("#lightbox-img").src = PROFILO.foto;
-    $("#hero-nome").innerHTML = esc(PROFILO.nome).replace(" ", "<br>");
+    $("#hero-nome").innerHTML = esc(PROFILO.nome).replace(" ", ' <br class="nl">');
     $("#hero-ruolo").textContent = PROFILO.ruolo;
     $("#hero-sottotitolo").textContent = PROFILO.sottotitolo;
     $("#hero-cv").href = PROFILO.cv;
@@ -179,7 +179,9 @@
           ${c.tipo === "risorse" ? `<p class="intro">Si aprono qui, dentro il pannello.</p>` : ""}
         </header>`;
     }
-    det.innerHTML = `<div class="fade-in" style="display:flex;flex-direction:column;gap:24px">${testa}${corpo}</div>`;
+    det.classList.toggle("viewer", c.tipo === "risorse" && guidaAperta !== null);
+    det.innerHTML = `<div class="detail-inner fade-in">${testa}${corpo}</div>`;
+    det.scrollTop = 0;
     scalaAnteprime();
   }
 
