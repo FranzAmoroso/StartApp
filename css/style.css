@@ -263,7 +263,7 @@ dialog#lightbox::backdrop { background: rgba(3,6,16,0.8); backdrop-filter: blur(
 
   /* categoria scelta: elenco → barra sottile a sinistra */
   .panels.has-sel { display: grid; grid-template-columns: 60px minmax(0, 1fr); gap: 10px; }
-  .panels.has-sel .side { padding: 8px 0; align-items: center; gap: 8px; border-radius: 18px; align-self: start; }
+  .panels.has-sel .side { padding: 8px 0; align-items: center; gap: 8px; border-radius: 18px; }
   .panels.has-sel .profile,
   .panels.has-sel .bio,
   .panels.has-sel .label-esplora,
@@ -273,7 +273,8 @@ dialog#lightbox::backdrop { background: rgba(3,6,16,0.8); backdrop-filter: blur(
   .panels.has-sel .cat-nav { align-items: center; }
   .panels.has-sel .cat-btn { width: 44px; min-height: 44px; padding: 0; justify-content: center; }
   .panels.has-sel .back { display: flex; width: 44px; height: 44px; align-items: center; justify-content: center; border: 0; background: transparent; color: var(--soft); cursor: pointer; border-bottom: 1px solid var(--line); border-radius: 12px; }
-  .panels.has-sel .detail { display: flex; height: calc(100svh - 32px); min-height: 0; padding: 18px 16px; gap: 16px; }
+  /* il pannello destro è alto quanto la barra di icone: il resto scorre dentro */
+  .panels.has-sel .detail { display: flex; height: 0; min-height: 100%; padding: 18px 16px; gap: 16px; }
 
   .detail h2 { font-size: 21px; }
   .tl-item { padding: 0 0 26px 20px; }
