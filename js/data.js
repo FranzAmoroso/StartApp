@@ -112,7 +112,8 @@ const CATEGORIE = [
         { nome: "REST API", sigla: "API", logo: "img/logos/api.png" },
         { nome: "MySQL", sigla: "SQL", logo: "img/logos/mysql.png" },
         { nome: "PostgreSQL", sigla: "PG", logo:"img/logos/postgresql.png" },
-        { nome: "NoSQL", sigla: "NO", logo: "img/logos/mongodb.png" }
+        { nome: "NoSQL", sigla: "NO", logo: "img/logos/mongodb.png" },
+        { nome: "SQL", sigla: "SQL", logo: "img/logos/sql.png" }
       ]},
       { titolo: "Server & Cloud", skills: [
         { nome: "Apache", sigla: "AP", logo: "img/logos/apache.png" },
