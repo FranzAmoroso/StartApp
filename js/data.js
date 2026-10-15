@@ -9,7 +9,7 @@ const PROFILO = {
   ruolo: "System Test Engineer",
   sottotitolo: "Test e validazione di sistemi e qualità del software. Studente di Informatica (L-31) all'Università di Catania.",
   qualifica: "Junior Consultant · AYES",
-  bio: "Sono uno studente universitario L-31 con un percorso di studi orientato verso lo sviluppo software e la Internet security. Ho maturato competenze attraverso corsi e progetti di Web e Mobile Development. Attualmente lavoro per AYES Consulting.",
+  bio: "Sono uno studente universitario L-31 con un percorso di studi orientato verso lo sviluppo software e la Internet security. Ho maturato competenze attraverso corsi e progetti di Web e Mobile Development.",
   foto: "img/franz.jpg",
   email: "amoroso.franz1@gmail.com",
   telefono: "+39 377 591 1088",
@@ -99,25 +99,30 @@ const CATEGORIE = [
         { nome: "Python", sigla: "PY", logo: "img/logos/python.png" },
         { nome: "PHP", sigla: "PHP", logo: "img/logos/php.png" },
         { nome: "JavaScript", sigla: "JS", logo: "img/logos/javascript.png" },
-        { nome: "Dart", sigla: "DT" }
+        { nome: "Dart", sigla: "DT", logo: "img/logos/dart.png"}
       ]},
       { titolo: "Web & Mobile", skills: [
         { nome: "React", sigla: "RE", logo: "img/logos/react.png" },
-        { nome: "Flutter", sigla: "FL" },
+        { nome: "Flutter", sigla: "FL", logo: "img/logos/flutter.png" },
         { nome: "Tailwind", sigla: "TW", logo: "img/logos/tailwind.png" },
-        { nome: "GSAP", sigla: "GS" }
       ]},
-      { titolo: "Backend & Dati", skills: [
+      { titolo: "Dati", skills: [
         { nome: "REST API", sigla: "API", logo: "img/logos/api.png" },
         { nome: "MySQL", sigla: "SQL", logo: "img/logos/mysql.png" },
-        { nome: "PostgreSQL", sigla: "PG" },
+        { nome: "PostgreSQL", sigla: "PG", logo:"img/logos/postgresql.png" },
         { nome: "NoSQL", sigla: "NO", logo: "img/logos/mongodb.png" }
+      ]},
+      { titolo: "Server & Cloud", skills: [
+        { nome: "Apache", sigla: "AP", logo: "img/logos/apache.png" },
+        { nome: "Vercel", sigla: "VC", logo: "img/logos/vercel.jpeg" },
+        { nome: "Firebase", sigla: "FB", logo: "img/logos/firebase.png" },
+        { nome: "GitHub Pages", sigla: "GH", logo: "img/logos/github.jpg" }
       ]},
       { titolo: "Strumenti & Progettazione", skills: [
         { nome: "Git", sigla: "GIT", logo: "img/logos/git.png" },
-        { nome: "Linux", sigla: "LX" },
-        { nome: "UML", sigla: "UML" },
-        { nome: "Design pattern", sigla: "GoF" }
+        { nome: "Linux", sigla: "LX", logo: "img/logs/linux.png"},
+        { nome: "UML", sigla: "UML", logo: "img/logos/uml.png"},
+        { nome: "Design pattern", sigla: "GoF", logo:"img/logos/design-pattern.svg" }
       ]},
       { titolo: "Trasversali", skills: [
         { nome: "Lavoro sotto pressione" },
