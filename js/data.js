@@ -103,8 +103,10 @@ const CATEGORIE = [
       ]},
       { titolo: "Web & Mobile", skills: [
         { nome: "React", sigla: "RE", logo: "img/logos/react.png" },
+        { nome: "Next", sigla: "NT", logo: "img/logos/nextjs.png" },
         { nome: "Flutter", sigla: "FL", logo: "img/logos/flutter.png" },
         { nome: "Tailwind", sigla: "TW", logo: "img/logos/tailwind.png" },
+        { nome: "Bootstrap", sigla: "BS", logo: "img/logos/bootstrap.png" },
       ]},
       { titolo: "Dati", skills: [
         { nome: "REST API", sigla: "API", logo: "img/logos/api.png" },
@@ -114,13 +116,13 @@ const CATEGORIE = [
       ]},
       { titolo: "Server & Cloud", skills: [
         { nome: "Apache", sigla: "AP", logo: "img/logos/apache.png" },
-        { nome: "Vercel", sigla: "VC", logo: "img/logos/vercel.jpeg" },
+        { nome: "Vercel", sigla: "VC", logo: "img/logos/vercel.png" },
         { nome: "Firebase", sigla: "FB", logo: "img/logos/firebase.png" },
-        { nome: "GitHub Pages", sigla: "GH", logo: "img/logos/github.jpg" }
+        { nome: "GitHub Pages", sigla: "GH", logo: "img/logos/github.png" }
       ]},
       { titolo: "Strumenti & Progettazione", skills: [
         { nome: "Git", sigla: "GIT", logo: "img/logos/git.png" },
-        { nome: "Linux", sigla: "LX", logo: "img/logs/linux.png"},
+        { nome: "Linux", sigla: "LX", logo: "img/logos/linux.png"},
         { nome: "UML", sigla: "UML", logo: "img/logos/uml.png"},
         { nome: "Design pattern", sigla: "GoF", logo:"img/logos/design-pattern.svg" }
       ]},
