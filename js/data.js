@@ -9,7 +9,7 @@ const PROFILO = {
   ruolo: "System & Security Test Engineer",
   sottotitolo: "Test e validazione di sistemi e qualità del software. Validazione e sicurezza dei sistemi.",
   qualifica: "Junior Consultant · AYES",
-  bio: "Sono uno studente universitario L-31 con un percorso di studi orientato verso lo sviluppo software e la Internet security. Ho maturato competenze attraverso corsi e progetti di Web e Mobile Development.",
+  bio: "Sono uno studente del dipartimento di matematica e informatica degli studi di Catania, il mio percorso di studi è orientato verso lo sviluppo software e Internet security. Ho maturato competenze attraverso corsi e progetti di Web e Mobile Development.",
   foto: "img/franz.jpg",
   email: "amoroso.franz1@gmail.com",
   telefono: "+39 377 591 1088",
