@@ -151,8 +151,10 @@
         <a class="contact" href="tel:${esc(tel)}"><span class="k">Telefono</span><span class="v">${esc(PROFILO.telefono)}</span></a>
         <a class="contact" href="${esc(PROFILO.linkedin)}" target="_blank" rel="noopener"><span class="k">LinkedIn</span><span class="v">${esc(ln)} ↗</span></a>
         <a class="contact" href="${esc(PROFILO.github)}" target="_blank" rel="noopener"><span class="k">GitHub</span><span class="v">${esc(gh)} ↗</span></a>
-        <a class="contact cv" href="${esc(PROFILO.cv)}" download><span class="k">Curriculum (PDF)</span><span class="v">Scarica ↓</span></a>
       </div>`;
+      /* Aggiungere quando si aggiorna il CV */
+      // <a class="contact cv" href="${esc(PROFILO.cv)}" download><span class="k">Curriculum (PDF)</span><span class="v">Scarica ↓</span></a>
+
     },
 
     testo(c) { return `<div class="txt" style="font-size:16px">${c.html || ""}</div>`; }

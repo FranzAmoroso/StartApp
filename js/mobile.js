@@ -14,7 +14,6 @@
 
   const freccia = (target) => `
     <a class="m-scroll" href="#${target}" aria-label="Vai alla sezione successiva">
-      <span>SCORRI</span>
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></svg>
     </a>`;
 
@@ -78,7 +77,7 @@
           <div class="m-pbody"><div class="m-ptitle">${esc(f.nome)}</div><div class="m-ptext">${esc(f.testo)}</div></div>
         </div>`).join("")}
       </div>
-      ${lista.length > 1 ? `<div class="m-side-hint">SCORRI DI LATO →</div>` : ""}`;
+      `;
   }
 
   function risorse() {
