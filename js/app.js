@@ -33,8 +33,7 @@
     $("#hero-nome").innerHTML = esc(PROFILO.nome).replace(" ", ' <br class="nl">');
     $("#hero-ruolo").textContent = PROFILO.ruolo;
     $("#hero-sottotitolo").textContent = PROFILO.sottotitolo;
-    $("#hero-cv").href = PROFILO.cv;
-    $("#hero-github").href = PROFILO.github;
+    const cvBtn = $("#hero-cv"); if (cvBtn) cvBtn.href = PROFILO.cv; // il bottone può essere commentato in index.html    $("#hero-github").href = PROFILO.github;
     $("#hero-linkedin").href = PROFILO.linkedin;
     $("#side-nome").textContent = PROFILO.nome;
     $("#side-qualifica").textContent = PROFILO.qualifica;

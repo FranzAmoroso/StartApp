@@ -123,9 +123,12 @@
         <a class="m-row" href="tel:${esc(tel)}"><span class="m-k">Telefono</span><span class="m-v">${esc(PROFILO.telefono)}</span></a>
         <a class="m-row" href="${esc(PROFILO.linkedin)}" target="_blank" rel="noopener"><span class="m-k">LinkedIn</span><span class="m-v">${esc(ln)} ↗</span></a>
         <a class="m-row" href="${esc(PROFILO.github)}" target="_blank" rel="noopener"><span class="m-k">GitHub</span><span class="m-v">${esc(gh)} ↗</span></a>
-        <a class="m-btn m-btn-primary" href="${esc(PROFILO.cv)}" download>Scarica il CV (PDF) ↓</a>
       </div>
       <div class="m-copy">© ${new Date().getFullYear()} ${esc(PROFILO.nome)}</div>`;
+
+      /*      Aggiungi quando aggiorni il cv   
+      <a class="m-btn m-btn-primary" href="${esc(PROFILO.cv)}" download>Scarica il CV (PDF) ↓</a>*/
+ 
   }
 
   /* ---------- Montaggio ---------- */
