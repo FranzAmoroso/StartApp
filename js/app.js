@@ -93,10 +93,10 @@
         const img = s.logo ? `<img src="${esc(s.logo)}" alt="" loading="lazy" data-fallback>` : "";
         return `<span class="tile">${img}${mg}${esc(s.nome)}</span>`;
       };
-      return `<div class="skills-grid">${c.gruppi.filter((g) => g.visibile !== false).map((g) => `
+      return `<div class="skills-grid">${c.gruppi.filter((g) => g.visibile !== false && g.skills.some((s) => s.visibile !== false)).map((g) => `
         <div>
           <div class="group-title ${g.titolo.toLowerCase().includes("apprend") ? "new" : ""}">${esc(g.titolo)}</div>
-          <div class="tiles">${g.skills.map(tile).join("")}</div>
+          <div class="tiles">${g.skills.filter((s) => s.visibile !== false).map(tile).join("")}</div>
         </div>`).join("")}</div>`;
     },
 

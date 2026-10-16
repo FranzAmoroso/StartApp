@@ -6,8 +6,8 @@
 
 const PROFILO = {
   nome: "Franz Amoroso",
-  ruolo: "System Test Engineer",
-  sottotitolo: "Test e validazione di sistemi e qualità del software. Studente di Informatica (L-31) all'Università di Catania.",
+  ruolo: "System & Security Test Engineer",
+  sottotitolo: "Test e validazione di sistemi e qualità del software. Validazione e sicurezza dei sistemi.",
   qualifica: "Junior Consultant · AYES",
   bio: "Sono uno studente universitario L-31 con un percorso di studi orientato verso lo sviluppo software e la Internet security. Ho maturato competenze attraverso corsi e progetti di Web e Mobile Development.",
   foto: "img/franz.jpg",
@@ -126,6 +126,22 @@ const CATEGORIE = [
         { nome: "Linux", sigla: "LX", logo: "img/logos/linux.png"},
         { nome: "UML", sigla: "UML", logo: "img/logos/uml.png"},
         { nome: "Design pattern", sigla: "GoF", logo:"img/logos/design-pattern.svg" }
+      ]},
+      { titolo: "Security testing", skills: [
+        { nome: "Nmap", sigla: "NM", logo: "img/logos/nmap.png" },
+        { nome: "Gobuster", sigla: "GB", logo: "img/logos/gobuster.png" },
+        { nome: "Firewall (iptables / ufw)", sigla: "FW", logo: "img/logos/firewall.svg" },
+        { nome: "Kali Linux", sigla: "KL", visibile: false },
+        { nome: "Wireshark", sigla: "WS", visibile: false },
+        { nome: "Burp Suite", sigla: "BS", logo: "img/logos/burpsuite.png", visibile: false },
+        { nome: "Metasploit", sigla: "MSF", visibile: false }
+      ]},
+      { titolo: "SOC", visibile: false, skills: [
+        { nome: "Splunk", sigla: "SPL" },
+        { nome: "Wazuh", sigla: "WZ" },
+        { nome: "Suricata", sigla: "SU" },
+        { nome: "MITRE ATT&CK", sigla: "ATT", logo: "img/logos/mitre-attack.svg" },
+        { nome: "VirusTotal", sigla: "VT" }
       ]},
       { titolo: "Trasversali", skills: [
         { nome: "Lavoro sotto pressione" },

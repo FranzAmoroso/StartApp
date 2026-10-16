@@ -39,13 +39,12 @@
     const c = cat("competenze");
     if (!c) return "";
     // su mobile niente "Trasversali" né gruppi nascosti
-    const gruppi = c.gruppi.filter((g) => g.visibile !== false && g.skills.some((s) => s.logo || s.sigla));
-    return `
+    const gruppi = c.gruppi.filter((g) => g.visibile !== false && g.skills.some((s) => s.visibile !== false && (s.logo || s.sigla)));    return `
       <h2>${esc(c.titolo)}</h2>
       <div class="m-groups">${gruppi.map((g) => `
         <div>
           <div class="m-glabel">${esc(g.titolo)}</div>
-          <div class="m-chips">${g.skills.map((s) => `
+          <div class="m-chips">${g.skills.filter((s) => s.visibile !== false).map((s) => `
             <span class="m-chip">
               ${s.logo ? `<img src="${esc(s.logo)}" alt="" loading="lazy" data-fallback>` : ""}
               <span class="m-sigla"${s.logo ? " hidden" : ""}>${esc(s.sigla || s.nome.slice(0, 2))}</span>
@@ -107,7 +106,7 @@
     const lista = c?.community || [];
     if (!lista.length) return "";
     return `
-      <h2>Community</h2><p class="m-lead">Community in cui sono attivo</p>
+      <h2>Community</h2><p class="m-lead">Dove sono attivo</p>
       <div class="m-glass m-comm">${lista.map((m) => `
         <a href="${esc(m.url)}" target="_blank" rel="noopener" aria-label="${esc(m.nome)}"><img src="${esc(m.logo)}" alt="${esc(m.nome)}" loading="lazy"></a>`).join("")}
       </div>`;

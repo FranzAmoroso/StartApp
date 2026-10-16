@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <title>Gobuster</title>
+  <!-- cartelle nascoste trovate da una lente -->
+  <path d="M14 40 a6 6 0 0 1 6-6 h22 l8 8 h44 a6 6 0 0 1 6 6 v44 a6 6 0 0 1 -6 6 H20 a6 6 0 0 1 -6-6z" fill="#3FA59D"/>
+  <path d="M14 52 h86 v40 a6 6 0 0 1 -6 6 H20 a6 6 0 0 1 -6-6z" fill="#5EC8C0"/>
+  <g fill="#060A16" opacity="0.35"><rect x="26" y="64" width="34" height="5" rx="2.5"/><rect x="26" y="75" width="24" height="5" rx="2.5"/></g>
+  <circle cx="86" cy="80" r="20" fill="#0B1226" stroke="#E9DFC0" stroke-width="7"/>
+  <path d="M100 94 L116 110" stroke="#E9DFC0" stroke-width="10" stroke-linecap="round"/>
+  <path d="M80 80 h12 M86 74 v12" stroke="#E9DFC0" stroke-width="4" stroke-linecap="round"/>
+</svg>

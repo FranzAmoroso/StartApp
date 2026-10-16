@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <title>Firewall</title>
+  <!-- muro di mattoni con scudo -->
+  <g fill="#C4683F">
+    <rect x="8" y="30" width="36" height="18" rx="3"/><rect x="48" y="30" width="36" height="18" rx="3"/><rect x="88" y="30" width="32" height="18" rx="3"/>
+    <rect x="8" y="52" width="16" height="18" rx="3"/><rect x="28" y="52" width="36" height="18" rx="3"/><rect x="68" y="52" width="36" height="18" rx="3"/><rect x="108" y="52" width="12" height="18" rx="3"/>
+    <rect x="8" y="74" width="36" height="18" rx="3"/><rect x="48" y="74" width="36" height="18" rx="3"/><rect x="88" y="74" width="32" height="18" rx="3"/>
+    <rect x="8" y="96" width="16" height="18" rx="3"/><rect x="28" y="96" width="36" height="18" rx="3"/><rect x="68" y="96" width="36" height="18" rx="3"/><rect x="108" y="96" width="12" height="18" rx="3"/>
+  </g>
+  <path d="M64 12 L96 24 V54 C96 76 82 92 64 100 C46 92 32 76 32 54 V24 Z" fill="#0B1226" stroke="#E9DFC0" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M50 56 l10 10 l20 -22" fill="none" stroke="#5EC8C0" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <title>MITRE ATT&amp;CK</title>
+  <!-- matrice di tattiche e tecniche -->
+  <g fill="#2A3A5E">
+    <rect x="10" y="14" width="30" height="16" rx="3"/><rect x="49" y="14" width="30" height="16" rx="3"/><rect x="88" y="14" width="30" height="16" rx="3"/>
+  </g>
+  <g fill="#6F9CEB">
+    <rect x="10" y="36" width="30" height="16" rx="3"/><rect x="49" y="36" width="30" height="16" rx="3"/><rect x="88" y="36" width="30" height="16" rx="3"/>
+    <rect x="10" y="58" width="30" height="16" rx="3"/><rect x="88" y="58" width="30" height="16" rx="3"/>
+    <rect x="10" y="80" width="30" height="16" rx="3"/><rect x="49" y="80" width="30" height="16" rx="3"/>
+    <rect x="49" y="102" width="30" height="16" rx="3"/><rect x="88" y="102" width="30" height="16" rx="3"/>
+  </g>
+  <g fill="#E07A5F">
+    <rect x="49" y="58" width="30" height="16" rx="3"/><rect x="88" y="80" width="30" height="16" rx="3"/><rect x="10" y="102" width="30" height="16" rx="3"/>
+  </g>
+</svg>
