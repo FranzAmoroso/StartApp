@@ -45,6 +45,7 @@
     color: #A9B5CE; text-decoration: none; font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
   }
   .m-scroll svg { color: var(--moon); animation: bob 1.8s ease-in-out infinite; }
+  .m-sec:not(:first-child) .m-scroll span { display: none; } /* la parola SCORRI solo nella prima sezione */
 
   /* Intro */
   .m-intro { display: flex; flex-direction: column; gap: 16px; }
