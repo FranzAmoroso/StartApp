@@ -158,7 +158,7 @@ const CATEGORIE = [
   {
     id: "progetti",
     titolo: "Progetti",
-    titoloPagina: "Cose che ho costruito",
+    titoloPagina: "Dove sono attualmente attivo",
     icona: "window",
     tipo: "progetti",
     // finestre: anteprime "mini browser". Se il sito non si lascia

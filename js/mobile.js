@@ -106,7 +106,7 @@
     const lista = c?.community || [];
     if (!lista.length) return "";
     return `
-      <h2>Community</h2><p class="m-lead">Dove sono attivo</p>
+      <h2>Community</h2><p class="m-lead">Dove mi puoi trovare</p>
       <div class="m-glass m-comm">${lista.map((m) => `
         <a href="${esc(m.url)}" target="_blank" rel="noopener" aria-label="${esc(m.nome)}"><img src="${esc(m.logo)}" alt="${esc(m.nome)}" loading="lazy"></a>`).join("")}
       </div>`;
