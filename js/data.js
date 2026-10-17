@@ -183,7 +183,8 @@ const CATEGORIE = [
       { titolo: "Algoritmi e Strutture Dati", testo: "Uso di algoritmi per varie soluzioni", file: "risorse/algoritmi-e-strutture-dati.html" },
       { titolo: "Design Pattern GoF", testo: "I 23 pattern della Gang of Four.", file: "risorse/design-pattern-gof.html" },
       { titolo: "Reti di calcolatori e internet", testo: "i 7 livelli di rete", file: "risorse/reti-di-calcolatori-e-internet.html" },
-      { titolo: "Python", testo: "Utilizzo di python nel testing di un sistema", file: "risorse/python.html" }
+      { titolo: "Python", testo: "Utilizzo di python nel testing di un sistema", file: "risorse/python.html" },
+      { titolo: "Sicurezza informatica", testo: "Test e validazione della sicurrezza di alcuni sistemi", file: "risorse/cybersecurity.html" }
     ]
   },
   {
