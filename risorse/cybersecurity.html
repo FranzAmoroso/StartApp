@@ -2627,13 +2627,22 @@ function simCardP(sim){
 }
 
 /* ---------- navigazione ---------- */
+// un solo scroll esplicito, con l'altezza reale della barra: due scrollIntoView di fila
+// (sezione + pulsante nella barra) interrompevano lo scroll fluido a metà strada
+function scrollToEl(el){
+  const bar = document.getElementById("bar");
+  const off = (bar ? bar.getBoundingClientRect().height : 52) + 10;
+  const top = Math.max(0, el.getBoundingClientRect().top + window.scrollY - off);
+  const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({top, behavior:smooth ? "smooth" : "auto"});
+}
 function go(target){
   if(!target) return;
   if(target.startsWith("lib-")){ selectLib(target.slice(4), true, false); return; }
-  if(target.startsWith("ex-")){ const d = document.getElementById(target); if(d){ d.open = true; d.scrollIntoView({block:"start"}); } return; }
+  if(target.startsWith("ex-")){ const d = document.getElementById(target); if(d){ d.open = true; scrollToEl(d); } return; }
   if(target.startsWith("quiz-")){ startQuizFor(target.slice(5)); return; }
   const el = document.getElementById(target);
-  if(el){ if(el.tagName === "DETAILS") el.open = true; el.scrollIntoView({block:"start"}); const sec = el.closest("section.topic"); if(sec && window.setCurrentChip) setCurrentChip(sec.id); }
+  if(el){ if(el.tagName === "DETAILS") el.open = true; const sec = el.closest("section.topic"); if(sec && window.setCurrentChipManual) setCurrentChipManual(sec.id); scrollToEl(el); }
 }
 document.addEventListener("click", e => {
   const a = e.target.closest("[data-go]");
@@ -2662,7 +2671,7 @@ function buildHeader(){
   const items = [...AREA_ORDER.map(a => [a, CATS[a].short, CATS[a].c]), ["strumenti", "Strumenti", "a0"], ["esercizi", "Esercizi", "ap"], ["quiz", "Quiz", "ap"]];
   for(const [id, n, c] of items){
     const a = h("a", {class:`chip achip ${c}`, href:"#" + (id === "librerie" ? "strumenti" : id), "data-go":(id === "librerie" ? "strumenti" : id)}, h("span", {class:"dot"}), n);
-    a.addEventListener("click", () => setCurrentChip(id));
+    a.addEventListener("click", () => setCurrentChip(a.dataset.go));
     bar.append(a);
   }
   bar.append(h("span", {class:"sp"}));
@@ -2690,10 +2699,33 @@ function buildHeader(){
   inp.addEventListener("keydown", e => { if(e.key === "Escape"){ inp.value = ""; res.hidden = true; } if(e.key === "Enter"){ const a = res.querySelector("a"); if(a) a.click(); } });
   // evidenzia la sezione corrente nella barra
   const chips = [...bar.querySelectorAll(".achip")];
-  window.setCurrentChip = id => { chips.forEach(c => c.setAttribute("aria-current", String(c.dataset.go === id))); const cur = chips.find(c => c.dataset.go === id); if(cur) cur.scrollIntoView({block:"nearest", inline:"nearest"}); lockChip = Date.now(); };
-  let lockChip = 0;
-  const io = new IntersectionObserver(es => es.forEach(en => { if(en.isIntersecting && Date.now() - lockChip > 900) setCurrentChip(en.target.id); }), {rootMargin:"-30% 0px -65% 0px"});
-  items.forEach(([id]) => { const el = document.getElementById(id); if(el) io.observe(el); });
+  window.setCurrentChip = id => { chips.forEach(c => c.setAttribute("aria-current", String(c.dataset.go === id))); const cur = chips.find(c => c.dataset.go === id); if(cur){ const br = bar.getBoundingClientRect(), cr = cur.getBoundingClientRect(); if(cr.left < br.left || cr.right > br.right) bar.scrollTo({left:bar.scrollLeft + cr.left - br.left - 16, behavior:"auto"}); } };
+  // sezione corrente = l'ultima il cui inizio ha superato una linea appena sotto la barra.
+  // Dopo un clic il pulsante scelto resta fisso finché non scorri tu (rotella, tocco, tastiera):
+  // lo scorrimento automatico verso la sezione non deve far "lampeggiare" gli altri pulsanti.
+  const secs = () => chips.map(c => document.getElementById(c.dataset.go)).filter(Boolean);   // cercate ogni volta: le aree si creano dopo la barra
+  let manual = false, ticking = false, lastId = null;
+  const releaseManual = () => { manual = false; };
+  ["wheel", "touchstart", "keydown"].forEach(ev => addEventListener(ev, releaseManual, {passive:true}));
+  chips.forEach(c => c.addEventListener("click", () => { manual = true; lastId = c.dataset.go; }));
+  window.setCurrentChipManual = id => { manual = true; lastId = id; setCurrentChip(id); };
+  const spy = () => {
+    ticking = false;
+    if(manual) return;
+    const line = bar.getBoundingClientRect().bottom + 24;
+    let cur = null;
+    const all = secs();
+    for(const el of all){ if(el.getBoundingClientRect().top <= line) cur = el; }
+    // in fondo alla pagina le ultime sezioni, corte, non arrivano mai alla linea: vale l'ultima visibile nella metà alta
+    if(innerHeight + scrollY >= document.documentElement.scrollHeight - 2){
+      for(const el of all){ const t = el.getBoundingClientRect().top; if(t < innerHeight * 0.5) cur = el; }
+    }
+    const id = cur ? cur.id : null;
+    if(id !== lastId){ lastId = id; if(id) setCurrentChip(id); else chips.forEach(c => c.setAttribute("aria-current", "false")); }
+  };
+  addEventListener("scroll", () => { if(!ticking){ ticking = true; requestAnimationFrame(spy); } }, {passive:true});
+  addEventListener("resize", spy);
+  requestAnimationFrame(spy);
 }
 function buildIndex(){
   const strip = s => String(s).replace(/<[^>]+>/g, "").replace(/&[a-z]+;/g, " ");
@@ -2899,8 +2931,8 @@ function selectLib(id, scroll, toggle){
   card.after(d);
   card.setAttribute("aria-expanded", "true");
   LX.open = id; LX.el = d;
-  if(window.setCurrentChip) setCurrentChip("librerie");
-  if(scroll) card.scrollIntoView({block:"start"});
+  if(window.setCurrentChipManual) setCurrentChipManual("strumenti");
+  if(scroll) scrollToEl(card);
 }
 /* ---------- esecuzione Python nel browser (Brython) ---------- */
 const BRY_SRC = [
@@ -3115,7 +3147,7 @@ function renderQuizSetup(){
   box.append(h("div", {}, h("div", {class:"lbl", style:"margin-bottom:6px"}, "Area (tra parentesi il numero di domande e il tuo miglior risultato)"), seg), h("div", {}, h("div", {class:"lbl", style:"margin-bottom:6px"}, "Lunghezza"), nseg), h("div", {}, start));
   root.append(box);
 }
-function startQuizFor(area){ QZ.area = area; QZ.n = 0; document.getElementById("quiz").scrollIntoView({block:"start"}); startQuiz(); }
+function startQuizFor(area){ QZ.area = area; QZ.n = 0; scrollToEl(document.getElementById("quiz")); startQuiz(); }
 function startQuiz(){
   const pool = shuffle(quizOf(QZ.area));
   QZ.list = QZ.n ? pool.slice(0, QZ.n) : pool; QZ.i = 0; QZ.score = 0; QZ.wrong = [];
