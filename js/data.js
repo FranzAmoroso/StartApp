@@ -165,7 +165,10 @@ const CATEGORIE = [
     // incorporare, aggiungi screenshot: "img/progetti/nome.jpg"
     finestre: [
       { nome: "DMI StudentLab", url: "https://studentlab.net", testo: "Laboratorio per studenti del Dipartimento di Matematica e Informatica." },
-      { nome: "CLARA", url: "https://claraedil.it", testo: "Automazione dei processi per le imprese edili." }
+      { nome: "CLARA", url: "https://claraedil.it", testo: "Automazione dei processi per le imprese edili." },
+      { nome: "Nasa neo dashboard", url: "https://nasa-neo-dashboard-franzamorosos-projects.vercel.app/", testo: "Dashboard per il monitoraggio degli asteroidi" }
+      
+      // 
     ],
 /*     altri: [
       { nome: "E-commerce + gestionale", url: "https://github.com/FranzAmoroso/ecommerce", tech: "PHP · React" },
