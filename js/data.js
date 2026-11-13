@@ -166,7 +166,7 @@ const CATEGORIE = [
     finestre: [
       { nome: "DMI StudentLab", url: "https://studentlab.net", testo: "Laboratorio per studenti del Dipartimento di Matematica e Informatica." },
       { nome: "CLARA", url: "https://claraedil.it", testo: "Automazione dei processi per le imprese edili." },
-      { nome: "Nasa neo dashboard", url: "https://nasa-neo-dashboard-franzamorosos-projects.vercel.app/", testo: "Dashboard per il monitoraggio degli asteroidi", screenshot: "img/progetti/nasa_neo_dashboard.png" }
+      { nome: "Nasa neo dashboard", url: "https://nasa-neo-dashboard-franzamorosos-projects.vercel.app/", testo: "Dashboard per il monitoraggio degli asteroidi" }
       
       // 
     ],
